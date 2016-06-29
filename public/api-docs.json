@@ -1,0 +1,29 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://ads.sensetime.com",
+  "apis": [
+    {
+      "path": "/api/v1/auth_tokens.{format}",
+      "description": "get token"
+    },
+    {
+      "path": "/api/v1/fashion/weixin.{format}",
+      "description": "yanzhiji api"
+    }
+  ],
+  "authorizations": null,
+  "info": {
+    "version": "1.0",
+    "title": "wechat_sensetime",
+    "description": "This is a docs of api.",
+    "termsOfService": "http://ads.sensetime.com/",
+    "contact": {
+      "email": "linzihao@sensetime.com"
+    },
+    "license": {
+      "name": "NGINX",
+      "url": "http://www.baidu.com"
+    }
+  }
+}

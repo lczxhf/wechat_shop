@@ -1,0 +1,17 @@
+defaults: &defaults
+  after_authorize: "/wechat/home"
+  tmp_media_expire_time: 3.days 
+  return_json_status_name: "returnCode"
+  return_err_result_name: "message"
+  return_success_result_name: "result"
+
+development:
+  <<: *defaults
+  website_url: "http://ads.sensetime.com"
+
+test:
+  <<: *defaults
+  website_url: "http://ads.sensetime.com"
+production:
+  <<: *defaults
+  website_url: "http://ads.sensetime.com"

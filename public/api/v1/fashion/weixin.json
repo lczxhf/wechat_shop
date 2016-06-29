@@ -1,0 +1,118 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://ads.sensetime.com",
+  "resourcePath": "weixin",
+  "apis": [
+    {
+      "path": "/fashion/weixin/upload.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "token",
+              "type": "string",
+              "description": "Authentication token",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "shop_id",
+              "type": "integer",
+              "description": "company id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "randCode",
+              "type": "string",
+              "description": "uniq rand code",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "upload",
+              "type": "file",
+              "description": "image",
+              "required": true
+            }
+          ],
+          "summary": "shangchuan cong yanzhiji pai de zhaopian",
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Not Acceptable"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Requested Range Not Satisfiable"
+            }
+          ],
+          "notes": "tupian yao xiaoyu 1M  geshi wei jpg huo jpeg",
+          "nickname": "Api::V1::Fashion::Weixin#upload",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/fashion/weixin/upload_without_randcode.json",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "token",
+              "type": "string",
+              "description": "Authentication token",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "shop_id",
+              "type": "integer",
+              "description": "company id",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "upload",
+              "type": "file",
+              "description": "image",
+              "required": true
+            }
+          ],
+          "summary": "shangchuan cong yanzhiji pai de zhaopian,bu xuyao suijima,yinwei saoma qu zhaopian ",
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Not Acceptable"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Requested Range Not Satisfiable"
+            }
+          ],
+          "notes": "tupian yao xiaoyu 1M  geshi wei jpg huo jpeg",
+          "nickname": "Api::V1::Fashion::Weixin#upload_without_randcode",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}
