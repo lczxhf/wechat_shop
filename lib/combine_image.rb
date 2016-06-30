@@ -33,9 +33,9 @@ class CombineImage
 
   def check_path
 		@option[:out_directory].chop! if @option[:out_directory][-1] == '/'
-	  [@option[:qrcode_path],@option[:product_path],@option[:outfile]].map! do |a|
+	  [@option[:qrcode_path],@option[:product_path],@option[:outfile]].each do |a|
       	a.insert(0,'/') if a[0] != '/'
-				@option[:out_directory] + a
+				a.insert(0,@option[:out_directory])
 	  end
   end
 	def operate(*path)
