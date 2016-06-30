@@ -7,7 +7,13 @@ class User < ApplicationRecord
   has_many :products
   enum status: [:probation,:normal,:expire]
 
+  after_create :init_setting
+
   def can_authorize?
     !self.expire?
+  end
+
+  def init_setting
+     user.create_user_setting(u_type:1)
   end
 end

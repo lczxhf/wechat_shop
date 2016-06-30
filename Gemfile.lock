@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/lczxhf/second_level_cache.git
-  revision: f49f35d666701ecba4ec1b3eb0e16ba2662e9887
+  revision: 11892cd0fb7c264598de8e1f2b50008f3684a108
   specs:
     second_level_cache (2.2.2)
       activerecord (>= 5.0.0.beta3, < 5.1.0)
