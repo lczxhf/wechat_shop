@@ -1,7 +1,7 @@
 class CreateQrcodeImages < ActiveRecord::Migration[5.0]
   def change
     create_table :qrcode_images do |t|
-      t.references :images
+      t.references :image
       t.references :member
       t.references :product
       t.string :path

@@ -6,10 +6,11 @@ class CombineImage
 		qrcode_width: 200,
 		qrcode_height: 200
 	}
-	def initialize(product,qrcode,**option)
-		@product = MiniMagick::Image.new product
-		@qrcode = MiniMagick::Image.new qrcode
+	def initialize(product_path,qrcode_path,**option)
 		@option = option.merge(DEFAULT)
+		check_path(product_path,qrcode_path)
+		@product = MiniMagick::Image.new product_path
+		@qrcode = MiniMagick::Image.new qrcode_path
 		set_canvas_size
 		check_qrcode_size
 	end
@@ -26,13 +27,14 @@ class CombineImage
 	end
 
 	def combine
-    check_path
     [@product.path,@qrcode.path,@option[:outfile]].map!{|path| @option[:out_directory]+path}
 		operate(@product.path,@qrcode.path,@option[:outfile])
 	end
 
-  def check_path
-      @option[:outfile].insert(0,'/') if @option[:outfile][0] != '/'
+  def check_path(*path)
+	  (path << @option[:outfile]).each do |a|
+      	a.insert(0,'/') if @option[:outfile][0] != '/'
+	  end
       @option[:out_directory].chop! if @option[:out_directory][-1] == '/'
   end
 	def operate(*path)

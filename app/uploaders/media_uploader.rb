@@ -8,9 +8,6 @@ class MediaUploader < CarrierWave::Uploader::Base
 		"/images/default_media.png"
 	end
 
-	version :thumb do
-		process :resize_to_fit => [200,200]
-	end
 
 	def extension_white_list
 		%w(jpg jpeg gif png)

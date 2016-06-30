@@ -14,6 +14,6 @@ class User < ApplicationRecord
   end
 
   def init_setting
-     user.create_user_setting(u_type:1)
+     self.create_user_setting(u_type:1)
   end
 end

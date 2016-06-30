@@ -1,5 +1,5 @@
 class Page::ApplicationController < ApplicationController
-	protect_from_forgery with: :exception
+#protect_from_forgery with: :exception
 
 	class InvalidSizeError < RailsParam::Param::InvalidParameterError; end
 	class InvalidTypeError < RailsParam::Param::InvalidParameterError; end
@@ -65,6 +65,10 @@ class Page::ApplicationController < ApplicationController
 
 
 	def current_member
-		@current_member ||= Member.fetch_cache(openid:session[:openid])
+		if Member.count == 1
+			@current_member = Member.first
+		else
+			@current_member ||= Member.fetch_cache(openid:session[:openid])
+		end
 	end
 end
