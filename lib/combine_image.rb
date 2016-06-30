@@ -27,15 +27,16 @@ class CombineImage
 	end
 
 	def combine
-    [@product.path,@qrcode.path,@option[:outfile]].map!{|path| @option[:out_directory]+path}
+    # [@product.path,@qrcode.path,@option[:outfile]].map!{|path| @option[:out_directory]+path}
 		operate(@product.path,@qrcode.path,@option[:outfile])
 	end
 
   def check_path(*path)
-	  (path << @option[:outfile]).each do |a|
-      	a.insert(0,'/') if @option[:outfile][0] != '/'
+		@option[:out_directory].chop! if @option[:out_directory][-1] == '/'
+	  (path << @option[:outfile]).map! do |a|
+      	a.insert(0,'/') if a[0] != '/'
+				@option[:out_directory] + a
 	  end
-      @option[:out_directory].chop! if @option[:out_directory][-1] == '/'
   end
 	def operate(*path)
 		if path.size == 3
