@@ -8,7 +8,7 @@ class ThirdParty::MessageController < ThirdParty::ApplicationController
 			    hash[a.node_name]=a.content
 			end
 			result = WechatReplyClass::CommonHandle.new(hash,params[:appid]).generate_class()
-			render xml: result	
+			render xml: result
 		end
 	end
 end

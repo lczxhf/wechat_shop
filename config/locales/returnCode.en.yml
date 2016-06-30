@@ -6,5 +6,5 @@ en:
     code_1003: "size of file you upload is out of size"
     code_1004: "only recept file which type is jpg or jpeg"
     code_1005: 'the shop have not authority to operate'
-    code_1006: 'can not find the image by this randcode'
-    code_1007: 'qrcode senseid error!' 
+    code_1006: 'size of param was wrong'
+    code_1007: 'type of param was wrong'

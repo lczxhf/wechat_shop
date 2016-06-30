@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :img_medium do
+  factory :level_distribution do
     
   end
 

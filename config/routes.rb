@@ -18,16 +18,14 @@ Rails.application.routes.draw do
  end
 
  namespace :api do
-  scope module: 'v1' do
-    resource :auth_token, only: [:create]
+   scope module: 'v1' do
+     resource :auth_token, only: [:create]
+   end
+   namespace :v1 do
+     namespace :page do
+       resources :products
+     end
+   end
   end
- end
- scope module: "api" do
-  scope module: "v1" do
-    namespace :fashion do
-	post "weixin/upload" => "weixin#upload"
-	post "weixin/upload_without_randcode" => "weixin#upload_without_randcode"
-    end
-  end
- end
+
 end

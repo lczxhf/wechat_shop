@@ -1,10 +1,10 @@
 zh-CN:
   returnCode:
-    code_200: 'chenggong'                                                                            
-    code_1001: 'canshu chucuo'                                                                      
-    code_1002: 'yonghu meiyou quanxian'
-    code_1003: 'ni shang chuan de wenjian chaoguo guding de daxiao'                                 
-    code_1004: 'zhi jieshou jpg he jpeg geshi de tupian'                                            
-    code_1005: "ci gongzhonghao mieyou quanxina caozuo "                                            
-    code_1006: "zhao bu dao duiying ci suijima de zhaopian"                                         
-    code_1007: "erweima de changjing id cuowu" 
+    code_200: '成功'
+    code_1001: '参数内容出错'
+    code_1002: '用户没有权限'
+    code_1003: '你上传的图片不在规定的大小范围内'
+    code_1004: '只接受规定的类型的图片'
+    code_1005: "此公众号没有权限操作"
+    code_1006: '参数个数出错'
+    code_1007: '参数类型出错'

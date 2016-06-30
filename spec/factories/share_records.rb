@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :new_medium do
+  factory :share_record do
     
   end
 

@@ -1,6 +1,4 @@
 zh-CN:
   api_docs:
-    fashion_weixin_upload_summary: "shangchuan cong yanzhiji pai de zhaopian"
-    fashion_weixin_upload_notes: "tupian yao xiaoyu 1M  geshi wei jpg huo jpeg"
-    fashion_weixin_upload_without_randcode_summary: "shangchuan cong yanzhiji pai de zhaopian,bu xuyao suijima,yinwei saoma qu zhaopian "
-    fashion_weixin_upload_without_randcode_notes: "tupian yao xiaoyu 1M  geshi wei jpg huo jpeg"
+    product_create_summary: '上传需要加二维码的照片'
+    product_create_note: '一个商品只上传一张就可以了!其他的可以在别的地方编辑'

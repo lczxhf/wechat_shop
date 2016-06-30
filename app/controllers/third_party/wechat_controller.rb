@@ -1,8 +1,8 @@
 class ThirdParty::WechatController < ThirdParty::ApplicationController
 	def home
-		shop = Shop.find(params[:id]) rescue nil
-		if shop
-		    if shop.can_authorize?
+		user = User.find(params[:id]) rescue nil
+		if user
+		    if user.can_authorize?
 			@url="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=#{APPID}&pre_auth_code=#{Rails.cache.read(:pre_code)}&redirect_uri=#{Settings.website_url}/third_party/wechat/auth_code?id=#{params[:id]}"
  	 		render html: @url
  	 	    else
@@ -32,7 +32,7 @@ class ThirdParty::WechatController < ThirdParty::ApplicationController
 		render plain: 'success'
 	end
 
-	def auth_code 
+	def auth_code
 		puts params
 		#TODO
 		#consider some situation that shop's user change gzh or one gzh want to bind two shop
@@ -53,7 +53,7 @@ class ThirdParty::WechatController < ThirdParty::ApplicationController
 			if result["openid"]
 				#TODO
 			end
-		end		
+		end
 	end
 
 	def authorize

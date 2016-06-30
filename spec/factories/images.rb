@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :shop do
+  factory :image do
     
   end
 

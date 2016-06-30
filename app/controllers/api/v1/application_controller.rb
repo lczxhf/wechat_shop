@@ -28,20 +28,20 @@ class Api::V1::ApplicationController < ApplicationController
 	    #TODO
 	    render json: %{{"#{Settings.return_json_status_name}":#{status},"#{Settings.return_err_result_name}":"#{message}"}}
 	end
-	
+
 	def api_success(result,status = 200)
 	    render json: %{{"#{Settings.return_json_status_name}":#{status},"#{Settings.return_success_result_name}":"#{result}"}}
 
 	end
 
-	def current_shop
+	def current_user
 		jwt = params["token"]
 		return false unless jwt
-		payload, header = JWT.decode(jwt, nil, false, verify_expiration: false) 
-		shop = Shop.find(payload["shopid"])
-		secret = account ? "123456789" : "" 
-		payload, header = JWT.decode(jwt, secret) 
-		@current_user = shop
+		payload, header = JWT.decode(jwt, nil, false, verify_expiration: false)
+		user = User.find(payload["userid"])
+		secret = account ? "123456789" : ""
+		payload, header = JWT.decode(jwt, secret)
+		@current_user = user
 	end
 
 	def check_file(name,opt={})
@@ -50,8 +50,8 @@ class Api::V1::ApplicationController < ApplicationController
 			send("check_"+k.to_s,params[name.to_sym],v) if respond_to?("check_"+k.to_s)
 		end
 	    else
-	    	raise RailsParam::Param::InvalidParameterError if opt[:required] == true 
-	    end 
+	    	raise RailsParam::Param::InvalidParameterError if opt[:required] == true
+	    end
 	end
 
 	def check_file_type(obj,value)
@@ -83,7 +83,7 @@ class Api::V1::ApplicationController < ApplicationController
 			#TODO
 			#do something if token is empty
 		end
-	
+
 		rescue JWT::ExpiredSignature => e
 		    api_error("token expire")
 		rescue JWT::DecodeError => e

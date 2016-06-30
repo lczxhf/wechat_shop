@@ -21,7 +21,5 @@
 
 en:
   api_docs:
-    fashion_weixin_upload_summary: 'upload image what user take from yanzhiji'
-    fashion_weixin_upload_notes: 'notice that size and type of image'
-    fashion_weixin_upload_without_randcode_summary: 'upload image what user take from yanzhiji without randcode,because user only get phone by scan qrcode'
-    fashion_weixin_upload_without_randcode_notes: 'notice that size and type of image'
+    product_create_summary: 'upload the image what you want to add qrcode'
+    product_create_note: 'upload only one picture a product'
