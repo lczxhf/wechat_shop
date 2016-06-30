@@ -14,7 +14,7 @@ Rails.application.routes.draw do
  end
 
  namespace :page do
-	get "members/new" => "members#new"
+	  resources :products
  end
 
  namespace :api do

@@ -4,7 +4,6 @@ class CreateProducts < ActiveRecord::Migration[5.0]
       t.references :member
       t.references :user
       t.string :name
-      t.string :qrcode
       t.decimal :price
       t.decimal :cost
       t.boolean :del, default: false

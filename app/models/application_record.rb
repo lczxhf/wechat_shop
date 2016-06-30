@@ -3,7 +3,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   class << self
     def fetch_cache(*arg)
-	fetch_by_uniq_keys(*arg)
+	     fetch_by_uniq_keys(*arg)
     end
   end
 end

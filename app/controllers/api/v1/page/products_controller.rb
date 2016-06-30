@@ -4,7 +4,7 @@ class Api::V1::Page::ProductsController < Api::V1::ApplicationController
     swagger_api :upload do
         summary I18n.t('api_docs.product_create_summary')
         notes I18n.t('api_docs.product_create_note')
-        param :form, :member, :integer, :required, 'member id'
+        param :form, :member_id, :integer, :required, 'member id'
         param :form, :upload, :file, :required, 'image'
         response :unauthorized
         response :not_acceptable
@@ -12,6 +12,7 @@ class Api::V1::Page::ProductsController < Api::V1::ApplicationController
     end
 
     def create
+        param! :user_id, Integer, required: true
         param! :member_id, Integer, required: true
         check_file :upload, required: true, max_size: 1024, file_type: %w(jpg jpeg)
         # record = ScanRecord.create(shop_id:params[:shop_id],image_path:params[:upload],randCode:params[:randCode])
