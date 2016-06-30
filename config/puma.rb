@@ -17,7 +17,7 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 
 
 app_name = "wechat_shop"
-application_path = "/Users/lzh/#{app_name}"
+application_path = "/projects/#{app_name}"
 pidfile "#{application_path}/tmp/puma.pid"
 state_path "#{application_path}/tmp/puma.state"
 stdout_redirect "#{application_path}/log/puma.stdout.log", "#{application_path}/log/puma.stderr.log"

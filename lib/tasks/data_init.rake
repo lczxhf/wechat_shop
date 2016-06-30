@@ -11,6 +11,7 @@ namespace :data_init do
       User.delete_all
       Member.delete_all
       GzhConfig.delete_all
+	  UserSetting.delete_all
       Rails.cache.clear
   end
 end

@@ -23,7 +23,6 @@ class AddQrcodeToImageJob < ApplicationJob
     filename = Digest::MD5.hexdigest(@qrcode_name)+@qrcode_ext
     store_dir = "/uploads/qrcode_image/#{qrcode_image.id}/"
     ActiveRecord::Base.connection.execute("update qrcode_images set path='#{filename}' where id = #{qrcode_image.id}")
-
     CombineImage.new(@image.path.url,qrcode_url,outfile: store_dir+filename).combine
   end
 end
