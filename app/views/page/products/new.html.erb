@@ -3,12 +3,176 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <%=javascript_include_tag 'jquery'%>
+    <style>
+        body{
+          font-size: 20px;
+        }
+        .header{
+          text-align: center;
+        }
+        .header h2{
+          margin-bottom: 0;
+        }
+        .img-box{
+          text-align: center;
+        }
+        .img-box div{
+          margin-bottom: 2px;
+        }
+        .image-file{
+          display: none;
+        }
+        .img-box button{
+          border: 1px solid #000000;
+          background-color: #ffffff;
+        }
+        .upload_img{
+          width: 7rem;
+          height: 7rem;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+        .form-content{
+          margin-top: 1rem;
+        }
+        .input-group{
+          margin-top: 1rem;
+          padding-left: 2rem;
+        }
+        .input-group label{
+          margin-right: 2rem;
+        }
+        .input-group input[type='text'],textarea{
+          border-radius: 3px;
+          border: 1px solid grey;
+          height: 2rem;
+          width: 10rem;
+        }
+        .distributions{
+          text-align: center;
+        }
+        .distributions input{
+          margin-bottom: 1px;
+        }
+        .button-group{
+            text-align: center;
+        }
+        .button-group input{
+            background-color: #ffffff;
+            border-radius: 3px;
+            border: 1px solid #000000;
+            width: 30%;
+        }
+    </style>
+    <script>
+    file_arr=[]
+    $(function(){
+      $(".image-file").change(function(e){
+          var file = e.target.files[0]
+          if (file) {
+              var reader = new FileReader();
+              reader.onload = function() {
+                  file_arr.push(e.target.id)
+                  var index = e.target.id.replace("file","")
+                  $(".upload_img").eq(index-1).css("background-image", "url("+reader.result+")")
+              }
+              reader.readAsDataURL(file);
+          }
+      })
+
+      $("#submit").click(function(){
+          // console.log($("#my_form").serialize())
+          var formobj =  document.getElementById("my_form");
+          // var form = formobj.getFormData()
+          var form = new FormData(formobj);
+          $.each(file_arr,function(index,name){
+            var file = $("#"+name).prop("files")[0]
+            form.append('file[]',file);
+          })
+          var xhr = new XMLHttpRequest();
+          xhr.open("post","http://127.0.0.1:3000/page/products", true);
+          xhr.onload = function(){
+                console.log(xhr.responseText)
+            }
+          xhr.send(form);
+      })
+    })
+    </script>
 </head>
-
 <body>
-
+    <div class="header">
+      <h2>上传一个新商品</h2>
+      <p>(图片建议大小:512X512)</p>
+    </div>
+    <div class="img-box">
+      <div>
+        <button class="upload_img" onclick="file1.click();">+</button><input id="file1" type="file" value="浏览" class="image-file" />
+        <button class="upload_img" onclick="file2.click();">+</button><input id="file2" type="file" value="浏览" class="image-file" />
+        <button class="upload_img" onclick="file3.click();">+</button><input id="file3" type="file" value="浏览" class="image-file" />
+      </div>
+      <div>
+        <button class="upload_img" onclick="file4.click();">+</button><input id="file4" type="file" value="浏览" class="image-file" />
+        <button class="upload_img" onclick="file5.click();">+</button><input id="file5" type="file" value="浏览" class="image-file" />
+        <button class="upload_img" onclick="file6.click();">+</button><input id="file6" type="file" value="浏览" class="image-file" />
+      </div>
+      <div>
+        <button class="upload_img" onclick="file7.click();">+</button><input id="file7" type="file" value="浏览" class="image-file" />
+        <button class="upload_img" onclick="file8.click();">+</button><input id="file8" type="file" value="浏览" class="image-file" />
+        <button class="upload_img" onclick="file9.click();">+</button><input id="file9" type="file" value="浏览" class="image-file" />
+      </div>
+    </div>
+    <div class="form-content">
+      <form id="my_form">
+        <div class="input-group">
+          <label>名称</label>
+          <input type="text" placeholder="请输入名称" name="name"/>
+        </div>
+        <div class="input-group">
+          <label>零售</label>
+          <input type="text" placeholder="" name="price"/>
+          <input type="checkbox" name="" value="显示">显示
+        </div>
+        <div class="input-group">
+          <label>库存</label>
+          <input type="text" placeholder="不填写默认为无限" name="stock"/>
+          <input type="checkbox" name="" value="显示">显示
+        </div>
+        <div class="input-group">
+          <label>邮费</label>
+            <input type="radio" name="postage" value="0"/>包邮
+            <input type="radio" name="postage" value="1"/>不包邮
+        </div>
+        <div class="input-group">
+          <label>佣金</label>
+          <div class="distributions">
+            一级:<input type="text" placeholder="" name="1_dist"/>%
+            <br/>二级:<input type="text" placeholder="" name="2_dist"/>%
+            <br/>三级:<input type="text" placeholder=""name="3_dist"/>%
+          </div>
+        </div>
+        <div class="input-group">
+          <label>介绍</label>
+          <textarea name="instroduction"></textarea>
+        </div>
+        <div class="input-group">
+          <label>成本</label>
+          <input type="text" placeholder="仅供您查看" name="cost"/>
+        </div>
+        <div class="input-group">
+          <label>备注</label>
+          <input type="text" placeholder="仅供您查看" name="mark"/>
+        </div>
+        <div class="input-group">
+          <input type="checkbox" name="hot" value="1">勾选设定此产品为经销商门栏产品
+        </div>
+        <div class="button-group">
+          <input type="button" value="提交" id="submit"/>
+          <input type="button" value="取消"/>
+        </div>
+      </form>
+    </div>
 </body>
 
 </html>

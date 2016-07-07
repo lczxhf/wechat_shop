@@ -7,12 +7,20 @@ class CombineImage
 		qrcode_height: 200
 	}
 	def initialize(product_path,qrcode_path,**option)
-		@option = (option.reverse_merge(DEFAULT.deep_dup)).merge({product_path:product_path,qrcode_path:qrcode_path})
+		@option = (option.reverse_merge(DEFAULT.deep_dup)).merge({product_path:product_path,qrcode_path:qrcode_path}.deep_dup)
 		check_path
-		@product = MiniMagick::Image.new product_path
-		@qrcode = MiniMagick::Image.new qrcode_path
+		@product = MiniMagick::Image.open @option[:product_path]
+		@qrcode = MiniMagick::Image.open @option[:qrcode_path]
+		check_product_size
 		set_canvas_size
 		check_qrcode_size
+	end
+
+	def check_product_size
+			if @product.width < 512
+					@product.resize("512")
+					@product.write(@product.path)
+			end
 	end
 
 	def set_canvas_size
@@ -64,7 +72,7 @@ class CombineImage
 
 	def check_output_path
 		dirname = File.dirname @option[:outfile]
-		system "mkdir -p #{dirname}"	
+		system "mkdir -p #{dirname}"
 	end
 
 	def get_qrcode_position

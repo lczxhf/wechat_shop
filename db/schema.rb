@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20160630020450) do
     t.datetime "updated_at",                       null: false
   end
 
-  create_table "members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", comment: "顾客信息表" do |t|
+  create_table "members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "user_id"
     t.integer  "gzh_config_id"
     t.string   "openid"
@@ -92,11 +92,15 @@ ActiveRecord::Schema.define(version: 20160630020450) do
     t.integer  "member_id"
     t.integer  "user_id"
     t.string   "name"
-    t.decimal  "price",      precision: 10
-    t.decimal  "cost",       precision: 10
-    t.boolean  "del",                       default: false
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.string   "mark"
+    t.integer  "stock"
+    t.text     "introduction", limit: 65535
+    t.decimal  "postage",                    precision: 10
+    t.decimal  "price",                      precision: 10
+    t.decimal  "cost",                       precision: 10
+    t.boolean  "del",                                       default: false
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
     t.index ["member_id"], name: "index_products_on_member_id", using: :btree
     t.index ["user_id"], name: "index_products_on_user_id", using: :btree
   end
@@ -128,6 +132,7 @@ ActiveRecord::Schema.define(version: 20160630020450) do
     t.integer  "from_member_id"
     t.integer  "to_member_id"
     t.string   "qrcode"
+    t.integer  "level"
     t.integer  "status",         default: 0
     t.boolean  "del",            default: false
     t.datetime "created_at",                     null: false
