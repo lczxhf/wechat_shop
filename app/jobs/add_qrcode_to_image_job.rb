@@ -1,10 +1,10 @@
 class AddQrcodeToImageJob < ApplicationJob
   queue_as :default
 
-  def perform(product_id,member_id)
+  def perform(product_id,member_id,appid)
       product = Product.includes(:images).find(product_id) rescue nil
       if product
-        qrcode_url = generate_qrcode(product_id,member_id)
+        qrcode_url = generate_qrcode(product_id,member_id,appid)
         product.images.each do |image|
           generate_qrcode_image(product,qrcode_url,image,member_id)
         end
@@ -18,8 +18,8 @@ class AddQrcodeToImageJob < ApplicationJob
   def qrcode_ext
       ".png"
   end
-  def generate_qrcode(product_id,member_id)
-    url = Settings.website_url+"/page/qrcode_images/#{member_id}-#{product_id}"
+  def generate_qrcode(product_id,member_id,appid)
+    url = Settings.website_url+"/page/qrcode_images/#{member_id}-#{product_id}?appid=#{appid}"
     qr=RQRCode::QRCode.new(url,:size=>14,:level=>:h).to_img
     qr.resize(200, 200).save(Rails.root.join("public","qrcode",qrcode_name(member_id,product_id)+qrcode_ext))
     return "qrcode/#{qrcode_name(member_id,product_id)}#{qrcode_ext}"

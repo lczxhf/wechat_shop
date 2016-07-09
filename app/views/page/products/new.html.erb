@@ -91,10 +91,15 @@
             var file = $("#"+name).prop("files")[0]
             form.append('file[]',file);
           })
+		  form.append("appid",'<%=params[:appid]%>')
           var xhr = new XMLHttpRequest();
-          xhr.open("post","http://127.0.0.1:3000/page/products", true);
+          xhr.open("post","<%=Settings.website_url%>/page/products", true);
           xhr.onload = function(){
-                console.log(xhr.responseText)
+		  		var result = JSON.parse(xhr.responseText)
+				console.log(result)
+                if (result['returnCode'] == 200){
+					window.location.replace(result['result']+window.location.search)
+				}
             }
           xhr.send(form);
       })

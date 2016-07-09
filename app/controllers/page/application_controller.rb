@@ -1,6 +1,6 @@
 class Page::ApplicationController < ApplicationController
 #protect_from_forgery with: :exception
-
+	before_action :check_login
 	class InvalidSizeError < RailsParam::Param::InvalidParameterError; end
 	class InvalidTypeError < RailsParam::Param::InvalidParameterError; end
 	class InvalidCheckTypeError < StandardError; end
@@ -21,12 +21,12 @@ class Page::ApplicationController < ApplicationController
 			#TODO
 	end
 
-	def return_success(message,status = 1001)
+	def return_error(message,status = 1001)
 		render json: %{{"#{Settings.return_json_status_name}":#{status},"#{Settings.return_err_result_name}":"#{message}"}}
 	end
 
-	def return_error(message,status = 200)
-		render json: %{{"#{Settings.return_json_status_name}":#{status},"#{Settings.return_success_result_name}":"#{result}"}}
+	def return_success(message,status = 200)
+		render json: %{{"#{Settings.return_json_status_name}":#{status},"#{Settings.return_success_result_name}":"#{message}"}}
 	end
 	
 	def check_file(name,opt={})
@@ -65,10 +65,18 @@ class Page::ApplicationController < ApplicationController
 
 
 	def current_member
-		if Member.count == 1
-			@current_member = Member.first
+		@current_member ||= Member.fetch_cache(openid:session[:openid])
+	end
+
+	def check_login
+		unless session[:openid]	
+			cookies.signed[:next_url]=request.url
+			auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=#{Settings.website_url}/third_party/wechat/authorize&response_type=code&scope=snsapi_userinfo&state=123&component_appid=#{APPID}#wechat_redirect"
+			redirect_to auth_url
 		else
-			@current_member ||= Member.fetch_cache(openid:session[:openid])
+			unless current_member
+				return_error("you have openid but this not exist in our database")
+			end
 		end
 	end
 end

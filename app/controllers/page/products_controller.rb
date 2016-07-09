@@ -13,8 +13,8 @@ class Page::ProductsController < Page::ApplicationController
             Image.create!(product_id:product.id,member_id:current_member.id,path:upload)
           end
         end
-        AddQrcodeToImageJob.perform_later(product.id,current_member.id)
-        return_success("上传成功!后台自动渲染图片!")
+        AddQrcodeToImageJob.perform_later(product.id,current_member.id,params[:appid])
+        return_success(product.id)
     else
         return_error("用户没有权限",1002)
     end
@@ -22,6 +22,11 @@ class Page::ProductsController < Page::ApplicationController
 
   def new
 
+  end
+
+  def show
+  		@product = Product.find params[:id]
+		render json: @product
   end
 
 end

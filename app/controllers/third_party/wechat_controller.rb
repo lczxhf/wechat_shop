@@ -36,7 +36,6 @@ class ThirdParty::WechatController < ThirdParty::ApplicationController
 		puts params
 		#TODO
 		#consider some situation that shop's user change gzh or one gzh want to bind two shop
-
 		json=ThirdParty.authorize(params[:auth_code])
 		gzh_config = GzhConfig.generate_config(json,params[:id])
 		#GetUserInfo.perform_async(auth_code.token,auth_code.id)
@@ -60,7 +59,10 @@ class ThirdParty::WechatController < ThirdParty::ApplicationController
 		if params[:code]
       		result=Wechat.get_usertoken_by_code(params[:appid],params[:code])
 			if result["openid"]
-				#TODO
+				session[:openid] = result["openid"]
+				next_url = cookies.signed[:next_url]
+				cookies.delete(:next_url)
+				redirect_to next_url
 			end
 		end
 	end

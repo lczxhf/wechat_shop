@@ -45,7 +45,7 @@ class CommonHandle
 	end
 
 	def check_expire
-	    return reply_text_message(I18n.t("returnCode.code_1005")) if @gzh_config.del == true || !@gzh_config.shop.can_authorize?
+	    return reply_text_message(I18n.t("returnCode.code_1005")) if @gzh_config.del == true || !@gzh_config.user.can_authorize?
 	    false 
 	end
 end

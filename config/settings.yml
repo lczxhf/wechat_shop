@@ -7,11 +7,11 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  website_url: "http://ads.sensetime.com"
+  website_url: "http://shop.29mins.com"
 
 test:
   <<: *defaults
-  website_url: "http://ads.sensetime.com"
+  website_url: "http://shop.29mins.com"
 production:
   <<: *defaults
-  website_url: "http://ads.sensetime.com"
+  website_url: "http://shop.29mins.com"

@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20160630020450) do
     t.datetime "updated_at",                       null: false
   end
 
-  create_table "members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+  create_table "members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", comment: "顾客信息表" do |t|
     t.integer  "user_id"
     t.integer  "gzh_config_id"
     t.string   "openid"
