@@ -10,6 +10,8 @@ class CreateProducts < ActiveRecord::Migration[5.0]
       t.decimal :postage
       t.decimal :price
       t.decimal :cost
+      t.boolean :show_stock
+      t.boolean :show_price
       t.boolean :del, default: false
       t.timestamps
     end

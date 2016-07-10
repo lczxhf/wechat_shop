@@ -5,6 +5,7 @@ class CreateQrcodeImages < ActiveRecord::Migration[5.0]
       t.references :member
       t.references :product
       t.string :path
+      t.string :tag
       t.boolean :del, default: false
       t.timestamps
     end

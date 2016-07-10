@@ -25,7 +25,12 @@ class Page::ProductsController < Page::ApplicationController
   end
 
   def show
-  		@product = Product.find params[:id]
+    @prodct = Product.find params[:id]
+    if params[:tag]
+        @member = Member.find(QrcodeImage.fetch_cache(tag:params[:tag]).member_id)
+    else
+        @member = @produc.member
+    end
 		render json: @product
   end
 
