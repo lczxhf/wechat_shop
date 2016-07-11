@@ -143,7 +143,6 @@ class Wechat
 	def get_user_info(openid,token,json = true)
  		   url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{token}&openid=#{openid}&lang=zh_CN"
  		   info=ThirdParty.get_to_wechat(url)
- 		   puts info
  		   if json
  		   		JSON.parse(info)
  		   else

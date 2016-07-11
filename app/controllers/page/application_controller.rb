@@ -16,6 +16,11 @@ class Page::ApplicationController < ApplicationController
 			#TODO
 	end
 
+	rescue_from(ActiveRecord::RecordNotFound) do |err|
+		#TODO
+		redirect_to Settings.website_url
+	end
+
 	rescue_from(InvalidTypeError) do |err|
 	    #api_error(I18n.t("returnCode.code_1004"),1004)
 			#TODO
@@ -70,7 +75,8 @@ class Page::ApplicationController < ApplicationController
 
 	def check_login
 		unless session[:openid]	
-			cookies.signed[:next_url]=request.url
+#cookies.signed[:next_url]=request.url
+			session[:next_url] = request.url
 			auth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{params[:appid]}&redirect_uri=#{Settings.website_url}/third_party/wechat/authorize&response_type=code&scope=snsapi_userinfo&state=123&component_appid=#{APPID}#wechat_redirect"
 			redirect_to auth_url
 		else

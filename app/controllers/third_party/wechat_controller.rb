@@ -42,7 +42,7 @@ class ThirdParty::WechatController < ThirdParty::ApplicationController
 		gzh_config.update_gzh_info
 		# gzh_config.set_industry()
 		# gzh_config.add_template()
-		# gzh_config.set_menu()
+		 gzh_config.set_menu()
 		redirect_to Settings.website_url+Settings.after_authorize
  	 end
 
@@ -59,11 +59,13 @@ class ThirdParty::WechatController < ThirdParty::ApplicationController
 		if params[:code]
       		result=Wechat.get_usertoken_by_code(params[:appid],params[:code])
 			if result["openid"]
+				GzhConfig.fetch_cache(appid:params[:appid]).generate_member(result['openid'],false,params[:code])
 				session[:openid] = result["openid"]
-				next_url = cookies.signed[:next_url]
-				cookies.delete(:next_url)
-				redirect_to next_url
+				next_url = session[:next_url]
+				session.delete(:next_url)
+				redirect_to next_url || Settings.website_url
 			end
 		end
 	end
+
 end

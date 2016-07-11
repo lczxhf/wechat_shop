@@ -2,11 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
     <%=javascript_include_tag 'jquery'%>
     <style>
     *{
       box-sizing: border-box;
+	  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
     }
     html body{
       margin: 0;
@@ -49,17 +50,56 @@
       color:#ffffff;
       margin: 0.5rem;
     }
-    .title p:last-child{
-        color: red;
-    }
     .img-box{
       margin-top: 0.5rem;
+	  position: relative;
+	  text-align: center;
+	  height: 300px;
     }
     .product-img{
       display: inline-block;
       height: 300px;
       width: 100%;
     }
+	.img-hidden{
+		display: none;
+	}
+	.img-show{
+		-webkit-animation: showing 1s;
+		-webkit-animation-fill-mode: forwards;
+		animation: showing 1s;
+		animation-fill-mode: forwards;
+
+	}
+	@-webkit-keyframes showing{
+		0% {-webkit-transform:scale(0.0)}
+		100% {-webkit-transform:scale(1)}
+	}
+	@keyframes showing{
+		0% {transform:scale(0.0)}
+		100% {transform:scale(1)}
+	}
+	.switch-img{
+		padding: 0;
+		margin: 0;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		background-color: rgba(18, 17, 17, 0.20); 	
+	}
+	.switch-img li{
+		width :1rem;
+		height: 1rem;
+		margin-right: 0.5rem;
+		list-style-type:none;
+		display: inline-block;
+		color: #ffffff;
+		background-image: url("/images/icon/bullet_white.png");
+		background-size: cover;
+	}
+	.switch-img .selected{
+		background-image: url("/images/icon/bullet_black.png");
+	}
     .product-title{
       margin-bottom: 0.5rem;
       height: 2rem;
@@ -72,12 +112,13 @@
       width: 80%;
     }
     .product-title button{
-        width: 20%;
+        width: 19%;
+		margin-right: 1%;
         height: 2rem;
         background-color: rgb(255, 108, 0);
+		border: none;
         border-radius: 5px;
         color: #ffffff;
-        font-size: 1.2rem;
     }
     .product-price{
 
@@ -89,21 +130,21 @@
       margin-right: 1rem;
     }
 
-    .agency{
+    .customer-box{
       text-align: center;
     }
-    .agency .customer{
+    .customer-box .customer{
       padding: 0.5rem;
       margin: 0;
     }
-    .agency .customer span{
+    .customer-box .customer span{
         display: inline-block;
         width: 1.5rem;
         height: 1.5rem;
         background-image: url('/images/icon/wechat_icon.png');
         background-size: cover;
     }
-    .agency .tip{
+    .customer-box .tip{
       color: rgb(240, 19, 5);
       padding: 1rem;
     }
@@ -126,6 +167,7 @@
     }*/
 
     .headquarters p:first-child{
+	  margin-top:1rem;
       font-size: 2rem;
       color:rgb(255, 108, 0);
     }
@@ -140,60 +182,89 @@
       height: 2rem;
       color: #ffffff;
       font-size: 1.2rem;
+	  border: none;
     }
     .info-box p{
-      padding: 1rem;
+      padding: 0.5rem;
     }
     .info-backgroud{
       background-color: rgb(255, 238, 220);
+	  color: grey;
     }
+
     </style>
+	<script>
+		window.addEventListener('load',load, false); 
+		function load(){
+			$(".switch-img li").click(function(){
+				$(".product-img").addClass("img-hidden")
+				$(".product-img").removeClass("img-show")
+				$(".product-img").eq($(this).attr("target")).removeClass("img-hidden").addClass("img-show")
+				$(".switch-img li").removeClass("selected")
+				$(this).addClass("selected")
+			})
+		}
+	</script>
 </head>
 <body>
     <div class="header">
       <div class="img-div">
-        <img class="headimg" src="/images/headimg.jpg" />
+        <img class="headimg" src="<%=@member.headimgurl%>" />
       </div>
       <div class="title">
-            <p>王某某</p>
-            <p>微信号:123dasdas456</p>
-            <p>向您推荐</p>
+            <p><%=@member.nickname%></p>
+            <p>微信号:<%=@member.wechat_number || "暂无"%></p>
       </div>
     </div>
     <div class="content">
       <div class="img-box">
-        <img class="product-img" src="/image/product.jpg" />
+	  	<%@product.images.each_with_index do |img,index|%>
+        	<img class="product-img <%=index == 0 ? "" : "img-hidden"%>" src="<%=img.image_path%>" />
+		<%end%>
+		<ul class="switch-img">
+			<%@product.images.size.times do |index|%>
+				<li class="<%=index == 0 ? "selected" : ""%>" target="<%=index%>"></li>
+			<%end%>
+		</ul>
       </div>
       <div class="product-title">
-        <span>夏装韩国女生连衣裙学生字母元素闺蜜装宽松中长直筒短袖T恤裙子</span>
+        <span><%=@product.name%></span>
         <button id="buy">去购买</button>
       </div>
       <div class="product-price info-backgroud">
-        <p><span>$228.00</span><span>库存:9999</span></p>
-        <p><span>快递:包邮</span></p>
+        <p ><span>$<%=@product.price%></span><span>库存:<%=@product.get_stock%></span></p>
+        <p><span>快递:<%= @product.free_postage? ? '包邮' : "不包邮"%></span></p>
       </div>
       <div class="product-introduction info-box">
-        <p>的撒打算打算大神多阿达是打算打算大神多按时打算打算大神多阿达是打算打算大神多而去东海大厦if阿斯覅金丝带敬爱司法阿萨德阿萨德阿萨德阿萨德</p>
+        <p><%=@product.introduction%></p>
       </div>
-
-      <div class="agency">
-          <p class="customer">客服、发货请找微信<span></span>xxxxxxxx</p>
-          <button id="agency-buy" class="width-button">立即购买</button>
-          <p class="tip">购买此商品可立即成为分销商享3级利润</p>
-          <div class="level-distribution info-box info-backgroud">
+	  <div class="customer-box">
+	  	<p class="customer">客服、发货请找微信<span></span><%=@member.wechat_number || "暂无"%></p>
+        <button id="agency-buy" class="width-button">立即购买</button>
+		<%if @product.is_threshold%>
+        <p class="tip">购买此商品可立即成为分销商享3级利润</p>
+		<%end%>
+	  </div>
+	<%if @can_show >=2%>
+        <div class="level-distribution info-box info-backgroud">
             <p><span>代理商</span><span>此商品佣金比例</span></p>
-            <p class="level"><span>第1级:10%</span><span>第2级:8%</span><span>第3级:5%</span></p>
+            <p class="level">
+				<%@product.level_distributions.each do |distribution|%>
+				<span>第<%=distribution.level%>级:<%=distribution.discount_human_format%></span>
+				<%end%>
+			</p>
             <button id="withdraw" class="width-button">去提现</button>
-          </div>
-      </div>
-
+      	</div>
+	<%end%>
+	<%if @can_show>=3%>
       <div class="headquarters info-box info-backgroud">
         <p>总部</p>
-        <p class="info"><span>成本价:$12.00</span><span>浏览总数:3877次</span></p>
+        <p class="info"><span>成本价:$<%=@product.cost%></span><span>浏览总数:3877次</span></p>
         <p class="info"><span>成交总额:$123123.90</span><span>发出佣金:$1212.0</span></p>
-        <p>备注:按时打算打算大神多阿萨德按时打算阿萨德阿萨德按时打算大打算大神多阿萨德撒的阿萨德撒打算</p>
+        <p>备注:<%=@product.mark%></p>
         <button id="manage" class="width-button">去管理</button>
       </div>
+	 <%end%>
     </div>
 
 

@@ -5,9 +5,9 @@ class Page::ProductsController < Page::ApplicationController
     if current_member.has_authority?
 		product = nil
         ActiveRecord::Base.transaction do
-          product = Product.create!(member_id:current_member.id,user_id:current_member.user_id,mark:params[:mark],stock:params[:stock],introduction:params[:introduction],postage:params[:postage],price:params[:price],cost:params[:cost])
+          product = Product.create!(member_id:current_member.id,user_id:current_member.user_id,mark:params[:mark],stock:params[:stock],introduction:params[:introduction],postage:params[:postage],price:params[:price],cost:params[:cost],show_price:params[:show_price],show_stock:params[:show_stock],name:params[:name],is_threshold:params[:is_threshold])
           3.times.each do |index|
-              LevelDistribution.create!(product:product,discount:params[((index+1).to_s+"dist").to_sym].to_i/100)
+              LevelDistribution.create!(product:product,discount:params[((index+1).to_s+"_dist").to_sym].to_i/100,level:index+1)
           end
           params[:file].each do |upload|
             Image.create!(product_id:product.id,member_id:current_member.id,path:upload)
@@ -25,13 +25,25 @@ class Page::ProductsController < Page::ApplicationController
   end
 
   def show
-    @prodct = Product.find params[:id]
+    @product = Product.includes(:images).find params[:id]
     if params[:tag]
         @member = Member.find(QrcodeImage.fetch_cache(tag:params[:tag]).member_id)
     else
-        @member = @produc.member
+        @member = @product.member
     end
-		render json: @product
+	check_member
   end
 
+  private
+
+  def check_member
+  		if @member == current_member
+			@can_show = 3
+		elsif MemberRelation.exists?(parent_member_id:@member.id,child_member_id:current_member.id)
+			@can_show = 2
+		else
+			@can_show = 1
+		end
+		puts @can_show
+  end
 end

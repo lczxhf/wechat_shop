@@ -14,10 +14,7 @@ module WechatReplyClass
         end
 
         def subscribe
-			member = Member.find_or_initialize_by(openid:@weixin_message.FromUserName)
-			member.gzh_config_id = @gzh_config.id
-			member.user_id = @gzh_config.user_id
-			member.save
+			@gzh_config.generate_member(@weixin_message.FromUserName)
             if @weixin_message.EventKey.present?
                 scan
             else

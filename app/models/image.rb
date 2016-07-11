@@ -3,4 +3,8 @@ class Image < ApplicationRecord
   belongs_to :member
 
   mount_uploader :path,MediaUploader
+
+  def image_path
+  	self.path.url
+  end
 end

@@ -17,7 +17,7 @@ class CombineImage
 	end
 
 	def check_product_size
-			if @product.width < 600
+			if @product.width < 550 || @product.width > 650
 					@product.resize("600")
 					@product.write(@product.path)
 			end

@@ -8,6 +8,10 @@
     <style>
         body{
           font-size: 20px;
+		  background-image: url(/images/product-bg.jpg);
+		  background-size: cover;
+		  background-repeat: no-repeat;
+		  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
         }
         .header{
           text-align: center;
@@ -42,6 +46,7 @@
           padding-left: 2rem;
         }
         .input-group label{
+		  font-size: 1rem;
           margin-right: 2rem;
         }
         .input-group input[type='text'],textarea{
@@ -60,11 +65,14 @@
             text-align: center;
         }
         .button-group input{
-            background-color: #ffffff;
+      		background-color: green; 
             border-radius: 3px;
             border: 1px solid #000000;
-            width: 30%;
-        }
+            width: 40%;
+		}
+		.button-group input:last-child{
+      		background-color: rgb(245, 152, 13); 
+		}
     </style>
     <script>
     file_arr=[]
@@ -109,7 +117,7 @@
 <body>
     <div class="header">
       <h2>上传一个新商品</h2>
-      <p>(图片建议大小:512X512)</p>
+      <p>(图片建议大小:600X600)</p>
     </div>
     <div class="img-box">
       <div>
@@ -137,12 +145,12 @@
         <div class="input-group">
           <label>零售</label>
           <input type="text" placeholder="" name="price"/>
-          <input type="checkbox" name="" value="显示">显示
+          <input type="checkbox" name="show_price" value="true">显示
         </div>
         <div class="input-group">
           <label>库存</label>
           <input type="text" placeholder="不填写默认为无限" name="stock"/>
-          <input type="checkbox" name="" value="显示">显示
+          <input type="checkbox" name="show_stock" value="true">显示
         </div>
         <div class="input-group">
           <label>邮费</label>
@@ -152,14 +160,14 @@
         <div class="input-group">
           <label>佣金</label>
           <div class="distributions">
-            一级:<input type="text" placeholder="" name="1_dist"/>%
-            <br/>二级:<input type="text" placeholder="" name="2_dist"/>%
-            <br/>三级:<input type="text" placeholder=""name="3_dist"/>%
+            <div>一级:<input type="text" placeholder="" name="1_dist"/>%</div>
+            <div>二级:<input type="text" placeholder="" name="2_dist"/>%</div>
+            <div>三级:<input type="text" placeholder=""name="3_dist"/>%</div>
           </div>
         </div>
         <div class="input-group">
           <label>介绍</label>
-          <textarea name="instroduction"></textarea>
+          <textarea name="introduction"></textarea>
         </div>
         <div class="input-group">
           <label>成本</label>
@@ -170,7 +178,7 @@
           <input type="text" placeholder="仅供您查看" name="mark"/>
         </div>
         <div class="input-group">
-          <input type="checkbox" name="hot" value="1">勾选设定此产品为经销商门栏产品
+          <input type="checkbox" name="is_threshold" value="true">勾选设定此产品为经销商门栏产品
         </div>
         <div class="button-group">
           <input type="button" value="提交" id="submit"/>

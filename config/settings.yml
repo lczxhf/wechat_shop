@@ -7,11 +7,11 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  website_url: "http://shop.29mins.com"
+  website_url: "http://www.pygsale.com"
 
 test:
   <<: *defaults
-  website_url: "http://shop.29mins.com"
+  website_url: "http://www.pygsale.com"
 production:
   <<: *defaults
-  website_url: "http://shop.29mins.com"
+  website_url: "http://www.pygsale.com"

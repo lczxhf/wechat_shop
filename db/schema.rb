@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630020450) do
+ActiveRecord::Schema.define(version: 20160710154204) do
 
   create_table "gzh_configs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "user_id"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20160630020450) do
     t.boolean  "del",                                  default: false
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
+    t.integer  "level"
     t.index ["product_id"], name: "index_level_distributions_on_product_id", using: :btree
   end
 
@@ -76,14 +77,24 @@ ActiveRecord::Schema.define(version: 20160630020450) do
     t.datetime "updated_at",                       null: false
   end
 
-  create_table "members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", comment: "顾客信息表" do |t|
+  create_table "members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "user_id"
     t.integer  "gzh_config_id"
     t.string   "openid"
+    t.string   "wechat_number"
     t.integer  "phone"
-    t.boolean  "del",           default: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.boolean  "del",            default: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "nickname"
+    t.boolean  "sex"
+    t.string   "province"
+    t.string   "city"
+    t.string   "country"
+    t.string   "headimgurl"
+    t.string   "language"
+    t.string   "subscribe_time"
+    t.string   "remark"
     t.index ["gzh_config_id"], name: "index_members_on_gzh_config_id", using: :btree
     t.index ["user_id"], name: "index_members_on_user_id", using: :btree
   end
@@ -98,9 +109,12 @@ ActiveRecord::Schema.define(version: 20160630020450) do
     t.decimal  "postage",                    precision: 10
     t.decimal  "price",                      precision: 10
     t.decimal  "cost",                       precision: 10
+    t.boolean  "show_stock"
+    t.boolean  "show_price"
     t.boolean  "del",                                       default: false
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
+    t.boolean  "is_threshold"
     t.index ["member_id"], name: "index_products_on_member_id", using: :btree
     t.index ["user_id"], name: "index_products_on_user_id", using: :btree
   end
@@ -110,6 +124,7 @@ ActiveRecord::Schema.define(version: 20160630020450) do
     t.integer  "member_id"
     t.integer  "product_id"
     t.string   "path"
+    t.string   "tag"
     t.boolean  "del",        default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false

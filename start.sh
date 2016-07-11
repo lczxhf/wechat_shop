@@ -1,6 +1,6 @@
 #!/bin/bash
 /usr/sbin/sshd
-cd /projects/wechat_shop
+cd /Users/lzh/wechat_shop
 bundle install
 #bundle exec rake assets:precompile
 rake db:create

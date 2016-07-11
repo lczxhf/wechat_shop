@@ -23,7 +23,7 @@ class AddQrcodeToImageJob < ApplicationJob
       ".png"
   end
   def generate_qrcode(product_id,member_id,appid)
-    url = Settings.website_url+"/page/products/#{producst_id}?tag=#{qrcode_name(member_id,product_id,true)}&appid=#{appid}"
+    url = Settings.website_url+"/page/products/#{product_id}?tag=#{qrcode_name(member_id,product_id,true)}&appid=#{appid}"
     qr=RQRCode::QRCode.new(url,:size=>14,:level=>:h).to_img
     qr.resize(200, 200).save(Rails.root.join("public","qrcode",qrcode_name(member_id,product_id)+qrcode_ext))
     return "qrcode/#{qrcode_name(member_id,product_id)}#{qrcode_ext}"
