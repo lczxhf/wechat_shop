@@ -67,8 +67,10 @@ class Wechat
 		result=JSON.parse(ThirdParty.sent_to_wechat(url,body))
 	end
 
+
 	def get_usertoken_by_code(appid,code)
 		url="https://api.weixin.qq.com/sns/oauth2/component/access_token?appid=#{appid}&code=#{code}&grant_type=authorization_code&component_appid=#{APPID}&component_access_token="+ThirdParty.get_access_token
+		puts url
 		JSON.parse(ThirdParty.get_to_wechat(url))
 	end
 	#向微信请求生成场景二维码

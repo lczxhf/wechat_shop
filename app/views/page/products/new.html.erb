@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <%=javascript_include_tag 'jquery'%>
     <style>
         body{
           font-size: 20px;
@@ -68,51 +67,14 @@
       		background-color: green; 
             border-radius: 3px;
             border: 1px solid #000000;
+			height: 2rem;
             width: 40%;
 		}
 		.button-group input:last-child{
       		background-color: rgb(245, 152, 13); 
 		}
     </style>
-    <script>
-    file_arr=[]
-    $(function(){
-      $(".image-file").change(function(e){
-          var file = e.target.files[0]
-          if (file) {
-              var reader = new FileReader();
-              reader.onload = function() {
-                  file_arr.push(e.target.id)
-                  var index = e.target.id.replace("file","")
-                  $(".upload_img").eq(index-1).css("background-image", "url("+reader.result+")")
-              }
-              reader.readAsDataURL(file);
-          }
-      })
 
-      $("#submit").click(function(){
-          // console.log($("#my_form").serialize())
-          var formobj =  document.getElementById("my_form");
-          // var form = formobj.getFormData()
-          var form = new FormData(formobj);
-          $.each(file_arr,function(index,name){
-            var file = $("#"+name).prop("files")[0]
-            form.append('file[]',file);
-          })
-		  form.append("appid",'<%=params[:appid]%>')
-          var xhr = new XMLHttpRequest();
-          xhr.open("post","<%=Settings.website_url%>/page/products", true);
-          xhr.onload = function(){
-		  		var result = JSON.parse(xhr.responseText)
-				console.log(result)
-                if (result['returnCode'] == 200){
-					window.location.replace(result['result']+window.location.search)
-				}
-            }
-          xhr.send(form);
-      })
-    })
-    </script>
 </head>
 <body>
     <div class="header">
@@ -160,9 +122,9 @@
         <div class="input-group">
           <label>佣金</label>
           <div class="distributions">
-            <div>一级:<input type="text" placeholder="" name="1_dist"/>%</div>
-            <div>二级:<input type="text" placeholder="" name="2_dist"/>%</div>
-            <div>三级:<input type="text" placeholder=""name="3_dist"/>%</div>
+            <div>一级:<input type="text" placeholder="" name="1_cost"/>元</div>
+            <div>二级:<input type="text" placeholder="" name="2_cost"/>元</div>
+            <div>三级:<input type="text" placeholder=""name="3_cost"/>元</div>
           </div>
         </div>
         <div class="input-group">
@@ -181,11 +143,53 @@
           <input type="checkbox" name="is_threshold" value="true">勾选设定此产品为经销商门栏产品
         </div>
         <div class="button-group">
-          <input type="button" value="提交" id="submit"/>
-          <input type="button" value="取消"/>
+          <input type="button" id="submit" value="提交">
+		  <input type="button" value="取消"/>
         </div>
       </form>
     </div>
+    <%=javascript_include_tag 'jquery'%>
+    <script>
+    file_arr=[]
+    $(function(){
+      $(".image-file").change(function(e){
+          var file = e.target.files[0]
+          if (file) {
+              var reader = new FileReader();
+              reader.onload = function() {
+                  file_arr.push(e.target.id)
+                  var index = e.target.id.replace("file","")
+                  $(".upload_img").eq(index-1).css("background-image", "url("+reader.result+")")
+              }
+              reader.readAsDataURL(file);
+          }
+      })
+
+      $("#submit").click(function(){
+          console.log($("#my_form").serialize())
+		  console.log(file_arr)
+          var formobj =  document.getElementById("my_form");
+          // var form = formobj.getFormData()
+          var form = new FormData(formobj);
+          $.each(file_arr,function(index,name){
+            var file = $("#"+name).prop("files")[0]
+            form.append('file[]',file);
+          })
+		  form.append("appid",'<%=params[:appid]%>')
+		  console.log(form)
+          var xhr = new XMLHttpRequest();
+          xhr.open("post","<%=Settings.website_url%>/page/products", true);
+          xhr.onload = function(){
+		  		var result = JSON.parse(xhr.responseText)
+				console.log(result)
+                if (result['returnCode'] == 200){
+					window.location.replace(result['result']+window.location.search)
+				}
+            }
+          xhr.send(form);
+      })
+    })
+    </script>
 </body>
 
 </html>

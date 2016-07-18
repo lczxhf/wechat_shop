@@ -74,6 +74,7 @@ class Page::ApplicationController < ApplicationController
 	end
 
 	def check_login
+		puts session[:openid]
 		unless session[:openid]	
 #cookies.signed[:next_url]=request.url
 			session[:next_url] = request.url

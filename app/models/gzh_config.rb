@@ -75,7 +75,7 @@ class GzhConfig < ApplicationRecord
 
 	def set_menu()
 #body='{"button":[{"name":"我的","sub_button":[{"type":"view","name":"我的卡券","url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid='+self.appid+'&redirect_uri=http%3a%2f%2fcallback.mijiclub.com%2fapi%2fthird_party%2foauth2&response_type=code&scope=snsapi_base&state=123&component_appid='+APPID+'#wechat_redirect"},{"type":"view","name":"了解觅技","url":"http://mijiclub.com"}]},{"type":"scancode_push","name":"到场扫码","key":"rselfmenu_0_1"},{"type":"view","name":"商家登录","url":"http://mijiclub.com/weixin/Writeoff-page/businessOperation.html"}]}'
-		body = %{{"button":[{"name":"上传","type":"view","url":"#{Settings.website_url}/page/products/new?appid=#{self.appid}"}]}}
+		body = %{{"button":[{"name":"上传","type":"view","url":"#{Settings.website_url}/page/products/new?appid=#{self.appid}"},{"name":"图片库","type":"view","url":"#{Settings.website_url}/page/products?appid=#{self.appid}"}]}}
 		Wechat.set_menu(self.token,body)
 	end
 
@@ -97,26 +97,28 @@ class GzhConfig < ApplicationRecord
 				end
 	end
 
-	def generate_member(openid,subscribe=true,code=nil)
+
+	def generate_member(openid,token=nil)
 			member = Member.find_or_initialize_by(openid:openid)
-			if subscribe
-				info = Wechat.get_user_info(openid,self.token)
-			else
-				token = Wechat.get_usertoken_by_code(self.appid,code)["access_token"]
+			if token
 				info = Wechat.get_oauth2_info(openid,token)
+			else
+				info = Wechat.get_user_info(openid,self.token)
 			end
 			member.gzh_config_id = self.id
 			member.user_id = self.user_id
-			member.nickname=info['nickname']
-			member.sex=info['sex'].to_i
-			member.province=info['province']
-			member.city=info['city']
-			member.country=info['country']
-			member.headimgurl=info['headimgurl']
-			member.language=info['language']
-			member.subscribe_time=info['subscribe_time']
-			member.remark=info['remark']
-			member.save
+			if info
+				member.nickname=info['nickname']
+				member.sex=info['sex'].to_i
+				member.province=info['province']
+				member.city=info['city']
+				member.country=info['country']
+				member.headimgurl=info['headimgurl']
+				member.language=info['language']
+				member.subscribe_time=info['subscribe_time']
+				member.remark=info['remark']
+			end
+			member.save!
 	end
 
 	private

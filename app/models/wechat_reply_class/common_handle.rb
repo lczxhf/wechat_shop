@@ -7,7 +7,6 @@ class CommonHandle
 	end
 	def generate_class
 	  if (result = check_whether_release) == false
-		puts result
 	    if (expire_result = check_expire) == false
 	    	case @weixin_message.MsgType
       	    	when 'text'

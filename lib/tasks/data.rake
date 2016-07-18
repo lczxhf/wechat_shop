@@ -1,4 +1,4 @@
-namespace :data_init do
+namespace :data do
   desc 'add some data to test'
   task :add => :environment do
       user = User.create(name:'test',status:1)
@@ -6,12 +6,11 @@ namespace :data_init do
       user.create_gzh_config(appid:"123456")
   end
 
-
-  task :remove => :environment do
-      User.delete_all
-      Member.delete_all
-      GzhConfig.delete_all
-	  UserSetting.delete_all
-      Rails.cache.clear
+  desc 'clean product data'
+  task :clean => :environment do
+  		Product.destroy_all
+		QrcodeImage.destroy_all
+		Image.destroy_all
+		LevelDistribution.destroy_all
   end
 end

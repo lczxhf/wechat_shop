@@ -1,5 +1,9 @@
 class Page::ProductsController < Page::ApplicationController
   layout false
+  def index
+  	 @img = QrcodeImage.where(member_id:current_member.id).select(:id,:path)
+  end
+
   def create
      #check_file :upload, required: true, max_size: 1024, file_type: %w(jpg jpeg png)
     if current_member.has_authority?
@@ -7,7 +11,7 @@ class Page::ProductsController < Page::ApplicationController
         ActiveRecord::Base.transaction do
           product = Product.create!(member_id:current_member.id,user_id:current_member.user_id,mark:params[:mark],stock:params[:stock],introduction:params[:introduction],postage:params[:postage],price:params[:price],cost:params[:cost],show_price:params[:show_price],show_stock:params[:show_stock],name:params[:name],is_threshold:params[:is_threshold])
           3.times.each do |index|
-              LevelDistribution.create!(product:product,discount:params[((index+1).to_s+"_dist").to_sym].to_i/100,level:index+1)
+              LevelDistribution.create!(product:product,cost:params[((index+1).to_s+"_cost").to_sym].to_i/100,level:index+1)
           end
           params[:file].each do |upload|
             Image.create!(product_id:product.id,member_id:current_member.id,path:upload)

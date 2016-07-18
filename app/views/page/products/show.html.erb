@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
-    <%=javascript_include_tag 'jquery'%>
     <style>
     *{
       box-sizing: border-box;
@@ -193,26 +192,14 @@
     }
 
     </style>
-	<script>
-		window.addEventListener('load',load, false); 
-		function load(){
-			$(".switch-img li").click(function(){
-				$(".product-img").addClass("img-hidden")
-				$(".product-img").removeClass("img-show")
-				$(".product-img").eq($(this).attr("target")).removeClass("img-hidden").addClass("img-show")
-				$(".switch-img li").removeClass("selected")
-				$(this).addClass("selected")
-			})
-		}
-	</script>
-</head>
+	</head>
 <body>
     <div class="header">
       <div class="img-div">
         <img class="headimg" src="<%=@member.headimgurl%>" />
       </div>
       <div class="title">
-            <p><%=@member.nickname%></p>
+            <p><%=@member.nickname || "无名"%></p>
             <p>微信号:<%=@member.wechat_number || "暂无"%></p>
       </div>
     </div>
@@ -250,7 +237,7 @@
             <p><span>代理商</span><span>此商品佣金比例</span></p>
             <p class="level">
 				<%@product.level_distributions.each do |distribution|%>
-				<span>第<%=distribution.level%>级:<%=distribution.discount_human_format%></span>
+				<span>第<%=distribution.level%>级:<%=distribution.cost%>元</span>
 				<%end%>
 			</p>
             <button id="withdraw" class="width-button">去提现</button>
@@ -266,7 +253,19 @@
       </div>
 	 <%end%>
     </div>
-
+    <%=javascript_include_tag 'jquery'%>
+<script>
+		window.addEventListener('load',load, false); 
+		function load(){
+			$(".switch-img li").click(function(){
+				$(".product-img").addClass("img-hidden")
+				$(".product-img").removeClass("img-show")
+				$(".product-img").eq($(this).attr("target")).removeClass("img-hidden").addClass("img-show")
+				$(".switch-img li").removeClass("selected")
+				$(this).addClass("selected")
+			})
+		}
+	</script>
 
 </body>
 </html>

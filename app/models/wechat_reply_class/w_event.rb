@@ -8,6 +8,8 @@ module WechatReplyClass
                 unsubscribe
             when 'SCAN'
                 scan
+			when "VIEW"
+				view
             else
                 common_handle
             end
@@ -25,10 +27,16 @@ module WechatReplyClass
         def unsubscribe
         end
 
+		def view
+			"success"
+		end
+
         def scan
+			"success"
         end
 
         def common_handle
+			"success"
         end
     end
 end

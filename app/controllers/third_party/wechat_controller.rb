@@ -56,10 +56,11 @@ class ThirdParty::WechatController < ThirdParty::ApplicationController
 	end
 
 	def authorize
+		puts "code:#{params[:code]}"
 		if params[:code]
       		result=Wechat.get_usertoken_by_code(params[:appid],params[:code])
 			if result["openid"]
-				GzhConfig.fetch_cache(appid:params[:appid]).generate_member(result['openid'],false,params[:code])
+				GzhConfig.fetch_cache(appid:params[:appid]).generate_member(result['openid'],result["token"])
 				session[:openid] = result["openid"]
 				next_url = session[:next_url]
 				session.delete(:next_url)
