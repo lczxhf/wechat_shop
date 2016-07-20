@@ -5,6 +5,9 @@ class User < ApplicationRecord
   has_one :gzh_info
   has_many :members
   has_many :products
+  has_many :product_stocks
+  has_many :agent_levels
+
   enum status: [:probation,:normal,:expire]
 
   after_create :init_setting

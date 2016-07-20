@@ -10,6 +10,8 @@ class Member < ApplicationRecord
   has_many :to_share_records, foreign_key: 'from_member_id'
   has_many :recept_share_records, foreign_key: 'to_member_id'
 
+  has_many :product_stocks
+
 
   def has_authority?
      UserSetting.fetch_cache(user_id:self.user_id).user_sell? ? self.user.openid == self.openid : true

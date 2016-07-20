@@ -4,9 +4,11 @@ class Product < ApplicationRecord
   has_many :images
   has_many :level_distributions
   has_many :share_products
+  has_many :product_stocks
 
+  enum status: [:normal,:due]
   def get_stock
-  	 self.stock || 999 
+  	 self.stock || 999
   end
 
   def free_postage?
