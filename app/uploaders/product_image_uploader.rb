@@ -1,4 +1,4 @@
-class MediaUploader < CarrierWave::Uploader::Base
+class ProductImageUploader < CarrierWave::Uploader::Base
 	include CarrierWave::MiniMagick
 	def store_dir
 		"uploads/#{model.class.to_s.underscore}/#{model.id}/"
@@ -14,12 +14,12 @@ class MediaUploader < CarrierWave::Uploader::Base
 	end
 
 	version :thumb do 
-		process :resize_to_fit => [200,200]
+		process :resize_to_fit => [300,300]
 	end
 
 	def ext
-    file.extension.downcase
-  end
+    	file.extension.downcase
+  	end
 
 	def filename
     if super.present?

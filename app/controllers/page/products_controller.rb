@@ -1,7 +1,7 @@
 class Page::ProductsController < Page::ApplicationController
   layout false
   def index
-  	 @img = QrcodeImage.where(member_id:current_member.id).select(:id,:path)
+  	 @products = Product.includes(:qrcode_images).where(member_id:current_member.id)
   end
 
   def create
@@ -9,12 +9,12 @@ class Page::ProductsController < Page::ApplicationController
     if current_member.has_authority?
 		product = nil
         ActiveRecord::Base.transaction do
-          product = Product.create!(member_id:current_member.id,user_id:current_member.user_id,mark:params[:mark],stock:params[:stock],introduction:params[:introduction],postage:params[:postage],price:params[:price],cost:params[:cost],show_price:params[:show_price],show_stock:params[:show_stock],name:params[:name],is_threshold:params[:is_threshold])
+          product = Product.create!(member_id:current_member.id,user_id:current_member.user_id,mark:params[:mark],stock:params[:stock],introduction:params[:introduction],postage:params[:postage],price:params[:price],cost:params[:cost],name:params[:name],is_threshold:params[:is_threshold],status:0)
           3.times.each do |index|
               LevelDistribution.create!(product:product,cost:params[((index+1).to_s+"_cost").to_sym].to_i/100,level:index+1)
           end
-          params[:file].each do |upload|
-            Image.create!(product_id:product.id,member_id:current_member.id,path:upload)
+          params[:file].each_with_index do |upload,index|
+            Image.create!(product_id:product.id,member_id:current_member.id,path:upload,introduction:params[:img_info][index])
           end
         end
         AddQrcodeToImageJob.perform_later(product.id,current_member.id,params[:appid])

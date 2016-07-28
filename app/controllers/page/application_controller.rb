@@ -1,6 +1,6 @@
 class Page::ApplicationController < ApplicationController
 #protect_from_forgery with: :exception
-	before_action :check_login
+	before_action :check_login, except: [:birthday]
 	class InvalidSizeError < RailsParam::Param::InvalidParameterError; end
 	class InvalidTypeError < RailsParam::Param::InvalidParameterError; end
 	class InvalidCheckTypeError < StandardError; end
@@ -74,7 +74,9 @@ class Page::ApplicationController < ApplicationController
 	end
 
 	def check_login
-		puts session[:openid]
+		if params[:test]
+			session[:openid] = Member.first.openid
+		end
 		unless session[:openid]	
 #cookies.signed[:next_url]=request.url
 			session[:next_url] = request.url

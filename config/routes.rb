@@ -13,8 +13,10 @@ Rails.application.routes.draw do
   	get "wechat/authorize" => "wechat#authorize"
  end
 
+get "/birthday" => "page/users#birthday"
  namespace :page do
 	  resources :products
+	  resources :users
  end
 
  namespace :api do

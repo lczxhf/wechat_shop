@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<%=javascript_include_tag 'jquery'%>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<style>
+			html,body{
+				margin: 0;
+			}
+    	</style>
+	    <script>
+		      $(function(){
+				wx.config({
+					debug: false, 
+					appId: '<%=@gzh_config.appid%>', 
+					timestamp:'<%=timestamp=Time.now.to_i%>' , 
+					nonceStr: '<%=nonceStr=SecureRandom.uuid.tr('-', '')%>', 
+					signature: '<%=signature(timestamp,nonceStr)%>',
+					jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage'] 
+				});
+				wx.ready(function(){
+					wx.onMenuShareTimeline({
+						title: '商汤7月生日会邀请函', 
+						link: 'http://www.pygsale.com/birthday',
+						imgUrl: 'http://www.pygsale.com/birthday.jpg',
+						success: function(res){
+						},
+						cancel: function(res){
+						}
+					});
+					wx.onMenuShareAppMessage({
+						title: '商汤7月生日会邀请函', 
+						desc: '商汤7月生日会、新人介绍会,快来撩汉撩妹吧!', 
+						link: 'http://www.pygsale.com/birthday', 
+						imgUrl: 'http://www.pygsale.com/birthday.jpg',
+						success: function () { 
+						},
+						cancel: function () { 
+						}
+					});
+					
+				})
+				$("#my_frame").css("height",window.screen.height+"px")
+				$("#my_frame").css("width",window.screen.width+"px")
+			  })
+    </script>
+	</head>
+	<body>
+	  <iframe id="my_frame" src="http://a3.rabbitpre.com/m/fuueeqC?lc=1&sui=b6eWsciK&from=singlemessage&isappinstalled=0#from=share"></iframe>
+	  </body>
+	  </html>

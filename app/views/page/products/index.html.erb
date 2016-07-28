@@ -5,9 +5,37 @@
     <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<style>
+		body{
+			margin: 0;
+		}
+		.img-box{
+			float:left;
+			margin-left:1rem;
+			text-align: center;
+		}
 		.qrcode-img{
-			width: 300px;
-			height: 600px;
+			width: 5rem;
+			height: 10rem;
+			border: 1px solid #000000;
+		}
+		.name{
+			margin-bottom: 1px;
+		}
+		.stock{
+			margin-top: 1px;
+			margin-bottom: 2px;
+		}
+		.price{
+			margin-top: 1px;
+		}
+		.big-img{
+			display:none;
+			margin: 0;
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 999;
+			background-color: #ffffff; 
 		}
 		.no-img{
 			color: red
@@ -15,13 +43,71 @@
 	</style>
 </head>
 <body>
-	<%if @img.present?%>
-		<%@img.each do |img|%>
-			<div><img class="qrcode-img" src="<%=img.path.url%>" /></div>
+	<%if @products.present?%>
+		<%@products.each_with_index do |product,index|%>
+			<div class="img-box" target="<%=index%>">
+				<p class="name"><%=product.name%></p>
+				<img class="qrcode-img" src="<%=product.qrcode_images.first.path.url%>" />
+				<p class="stock">库存:<%=product.stock%></p>
+				<p class="price">零售:<%=product.price%></p>
+			</div>
 		<%end%>
+		<div class="big-img">
+			<img src="" />	
+		</div>
 	<%else%>
 		<h2 class="no-img">暂无图片</h2>
 	<%end%>
 	<%=javascript_include_tag 'jquery'%>
+	<script>
+		$(function(){
+			arr =[]
+			product_index = 0
+			image_index = 0
+			start = false
+		    x = 0	
+			<%@products.each_with_index do |product,index|%>
+					arr[<%=index%>] = []
+				<%product.qrcode_images.each do |image|%>
+					arr[<%=index%>].push("<%=image.path.url%>")	
+				<%end%>
+			<%end%>
+			$(".big-img").children().eq(0).css("width",window.screen.width+"px")
+			$(".big-img").children().eq(0).css("height",window.screen.height+"px")
+			$(".img-box").click(function(){
+				product_index = this.attributes["target"].value
+				$(".big-img").children().eq(0).attr("src",arr[product_index][image_index])
+				$(".big-img").show();
+			})
+			$(".big-img").click(function(){
+				image_index = 0;
+				$(this).hide();
+			})
+			$(".big-img").on("touchmove",function(e){
+			  var clientX = e.originalEvent.touches[0].clientX
+			  if(start==false && x!=0){
+			    if(clientX > x){
+					if(image_index!=0){
+						image_index--;
+					}
+				}else{
+					if(arr[product_index].length > image_index-1){
+					image_index++;
+					}	
+				}
+				
+				$(".big-img").children().eq(0).attr("src",arr[product_index][image_index]) 	
+			  	start = true
+			  }else{
+			  	x = clientX
+			  }
+			})
+
+			$(".big-img").on("touchend",function(){
+				start = false
+				x = 0
+			})
+		})
+	</script>
 </body>
 </html>

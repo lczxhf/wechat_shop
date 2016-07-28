@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+		html,body{
+			margin:0;
+		}	
+		input{
+			border: 1px solid #E05543;
+		}
+		.header{
+			background-color: #FB6969;
+			text-align: center;
+			color: #ffffff;
+			padding: 0.5rem;
+		}
+		.header h2{
+			margin: 0;
+		}
+		.input-group{
+			width: 80%;
+			margin: 0.5rem 10%;
+		}
+		.input-group span{
+			margin-right: 1rem;
+		}	
+		.input-group > input{
+			width: 60%;
+		}
+		.input-group .checkbox-container{
+			padding-left: 5rem;
+			margin-top: 0.5rem;
+			margin-bottom: 0.5rem;
+		}
+		.button-group{
+			width: 80%;
+			margin: 0.5rem 10%;
+		}
+		.button-group button{
+			color: #ffffff;
+			background-color: #E05543;  
+			border: none;
+			line-height: 2rem;
+		}
+		.button-group .qrcode{
+			margin-left: 5rem;
+		}
+		.img-box{
+			margin-top: 0.5rem;
+			text-align: center;
+		}
+		.img-box img{
+			width: 10rem;
+			height: 10rem;
+			display: none;
+		}
+		.line{
+			margin: 1rem auto;
+			width: 80%;
+			border-top: 1px solid grey;
+			border-color: grey;
+		}
+		.container{
+			margin: auto;
+			width: 80%;	
+		}
+		.container > p{
+			font-weight: 600;
+		}
+		.agent-list{
+			background-color:#effeff;
+			line-height: 2rem;
+		}
+		.agent-list	.operate-button{
+			display: inline-block;
+			float:right;
+			margin-right: 1rem;
+		}
+		.agent-list button{
+			color: #ffffff;	
+			border: none;
+			background-color: #3468af;
+		}
+		.agent-list button:last-child{
+			margin-left: 1rem;
+			background-color: #e05543;
+		}
+		.agent .button-group{
+			text-align: center;
+		}
+		.add-agent{
+			background-color: #effeff;
+			background-origin: content-box;
+			padding: 0.5rem 0;
+			display: none;
+		}
+		.add-agent .input-group{
+			margin: 0.5rem 0;
+			width: 100%;
+		}
+		.tip p{
+			text-align: center;
+			font-size: 0.8rem;	
+			line-height: 1rem;
+			color: #e05543;
+			background-color: rgba(99, 102, 101, 0.38);
+		}
+		.pay .pay-type span{
+			margin-right: 0.5rem;		
+		}
+		.info div{
+			margin-bottom: 0.5rem;
+		}
+		.info div span{
+			margin-left:1rem;
+		}
+		.info div span:last-child{
+			font-size: 0.8rem;
+		}
+		.submit-box{
+			text-align:center;
+		}
+		.submit-box button{
+			width: 100%;
+		}
+    </style>
+
+</head>
+<body>
+	<div class="header"><h2>基本设定</h2></div>
+	<div class="form-container">
+		<form id="my_form">
+			<div class="input-group">
+				<span>总部名称</span><input name="name" type="text" />
+			</div>
+			<div class="input-group">
+				<span>客服电话</span><input name="service_phone" type="text" />
+			</div>
+			<div class="input-group">
+				<span>客服微信</span><input name="service_wechat" type="text" />
+			</div>
+			<div class="button-group">
+				<button type="button" class="qrcode" onclick="qrcode_file.click()">上传客服二维码</button>
+				<div class="img-box"><img id="qrcode_img" src/></div>
+				<input type="file" style="display:none" id="qrcode_file"/>
+			</div>
+			<div class="input-group">
+				<span>总部地址</span><input name="address" type="text" />
+				<div class="checkbox-container">显示<input name="show_address" value="true" type="checkbox" /></div>
+			</div>
+			<div class="line"></div>
+
+			<div class="container agent">
+				<p>代理级别设定</p>
+				<div class="agent-list">
+				</div>
+				<div class="button-group"><button id="show_add_agent" type="button">添加一个代理级别</button></div>
+				<div class="add-agent">
+					<div class="input-group"><span>级别名称</span><input type="text" id="level_name"/></div>
+					<div class="input-group"><span>首次拿货</span><input type="text" id="first_total"/></div>
+					<div class="input-group">
+						<span>升级补货</span><input type="text" id="up_total"/>
+						<div class="checkbox-container">可招代理<input type="checkbox" id="can_add_agent" checked="checked"/></div>
+					</div>
+					<div class="button-group">
+						<button type="button" id="add_agent">确认生成</button>
+						<button type="button" id="cancel_add_agent">清除放弃</button>
+					</div>
+					<div class="tip"><p>请小心设定!一经设定后.欲修改需联系400-677-9291</p></div>
+				</div>
+			</div>
+
+			<div class="line"></div>
+
+			<div class="container pay">
+				<p>佣金支付渠道选择</p>
+				<div class="tip"><p>总部将通过什么渠道支付代理佣金?</p></div>
+				<div class="pay-type"><span>微信支付<input type="checkbox" name="can_wechatpay" checked="checked" value="true"/></span><span>支付宝支付<input name="can_alipay" value="true" type="checkbox" checked="false"/></span><span>银行支付<input name="can_unionpay" value="true" type="checkbox" checked="false"/></span></div>
+			</div>
+
+			<div class="line"></div>
+
+			<div class="container info">
+				<p>注册资料</p>
+				<div ><span>注册主体</span><span>可以是公司名,也可以是个人名称</span></div>
+				<div ><span>主体号码</span><span>也可以是公司执照码</span></div>
+				<div ><span>注册手机</span><span>15817378111</span></div>
+			</div>
+
+			<div class="line"></div>
+			<div class="button-group submit-box">
+				<button type="button" id="submit">确认添加</button>
+			</div>
+		</form>
+	</div>
+    <%=javascript_include_tag 'jquery'%>
+    <script>
+		level_arr = []
+     	$(function(){
+			$("#show_add_agent").click(function(){
+				$("#level_name").val("")
+				$("#first_total").val("")
+				$("#up_total").val("")
+				$("#add_agent").attr("target","")
+				$(".add-agent").show()		
+			})
+			$("#cancel_add_agent").click(function(){
+				$(".add-agent").hide();		
+			})
+			$("#add_agent").click(function(){
+				if($("#level_name").val()){
+				var index = 0
+				if($(this).attr("target") != undefined && $(this).attr("target") != ""){
+					index = $(this).attr("target")	
+					$(".agent-list").children("div").eq(index).html('<span>'+$("#level_name").val()+'</span><div class="operate-button" target="'+index+'"><button type="button" class="edit-agent">编辑</button><button class="del-agent" type="button">删除</button></div>')
+				}else{
+					index=level_arr.length
+					$(".agent-list").append('<div><span>'+$("#level_name").val()+'</span><div class="operate-button" target="'+index+'"><button type="button" class="edit-agent">编辑</button><button class="del-agent" type="button">删除</button></div></div>')
+				}
+				level_arr[index]=([$("#level_name").val(),$("#first_total").val(),$("#up_total").val(),$("#can_add_agent")[0].checked])	
+				$("#cancel_add_agent").click()
+				}else{
+					alert('请填写信息')
+				}
+			})
+
+			$(document).on("click",".del-agent",function(){
+				var index = $(this).parent().attr("target")	
+				level_arr.splice(index,1)
+				$(this).parent().parent().remove();
+			})
+
+			$(document).on("click",".edit-agent",function(){
+				var data = level_arr[$(this).parent().attr("target")]
+				$("#level_name").val(data[0])
+				$("#first_total").val(data[1])
+				$("#up_total").val(data[2])
+				$("#can_add_agent")[0].checked = data[3]
+				$("#add_agent").attr("target",$(this).parent().attr("target"))
+				$(".add-agent").show()	
+			})
+
+			$("#qrcode_file").change(function(e){
+				var file = e.target.files[0]
+				if (file) {
+	              var reader = new FileReader();
+	              reader.onload = function() {
+		             $("#qrcode_img").css("display","inline-block")
+		             $("#qrcode_img").attr("src",reader.result)
+		          }
+	              reader.readAsDataURL(file);
+          		}				  
+			})
+
+			$("#submit").click(function(){
+				var form = new FormData(document.getElementById("my_form"));
+				form.append("file",document.getElementById("qrcode_file").files[0])
+				form.append("appid",'<%=params[:appid]%>')
+				$.each(level_arr,function(index,data){
+					form.append("distribution[]",data.join(","))		
+				})
+				var xhr = new XMLHttpRequest();
+			    xhr.open("post","<%=Settings.website_url%>/page/users", true);
+				xhr.onload = function(){
+					var result = JSON.parse(xhr.responseText)
+					console.log(result)
+					if (result['returnCode'] == 200){
+						//window.location.replace(result['result']+window.location.search)
+						alert(result['result'])
+					}
+				}
+				xhr.send(form);		
+			})
+       })
+    </script>
+</body>
+
+</html>

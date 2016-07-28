@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719154918) do
+ActiveRecord::Schema.define(version: 20160727161207) do
 
   create_table "agent_levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "user_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20160719154918) do
     t.boolean  "can_create_agent",                default: true
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
+    t.string   "name"
     t.index ["user_id"], name: "index_agent_levels_on_user_id", using: :btree
   end
 
@@ -93,6 +94,7 @@ ActiveRecord::Schema.define(version: 20160719154918) do
     t.integer  "user_id"
     t.integer  "gzh_config_id"
     t.string   "openid"
+    t.string   "wechat_number"
     t.integer  "phone"
     t.boolean  "del",            default: false
     t.datetime "created_at",                     null: false
@@ -135,6 +137,8 @@ ActiveRecord::Schema.define(version: 20160719154918) do
     t.decimal  "postage",                    precision: 10
     t.decimal  "price",                      precision: 10
     t.decimal  "cost",                       precision: 10
+    t.boolean  "show_stock"
+    t.boolean  "show_price"
     t.boolean  "del",                                       default: false
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
@@ -150,6 +154,7 @@ ActiveRecord::Schema.define(version: 20160719154918) do
     t.integer  "member_id"
     t.integer  "product_id"
     t.string   "path"
+    t.string   "tag"
     t.boolean  "del",        default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
@@ -203,6 +208,7 @@ ActiveRecord::Schema.define(version: 20160719154918) do
     t.string   "service_phone"
     t.string   "service_wechat"
     t.string   "address"
+    t.string   "qrcode_url"
   end
 
 end

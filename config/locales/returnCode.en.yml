@@ -8,3 +8,4 @@ en:
     code_1005: 'the shop have not authority to operate'
     code_1006: 'size of param was wrong'
     code_1007: 'type of param was wrong'
+	code_1008: 'member is not manager of shop'

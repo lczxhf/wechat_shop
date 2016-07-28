@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -27,16 +26,45 @@
         .image-file{
           display: none;
         }
-        .img-box button{
-          border: 1px solid #000000;
+        #upload-button{
+          height: 3rem;
+		  border: 1px solid #000000;
           background-color: #ffffff;
+		  width: 80%;
         }
-        .upload_img{
-          width: 7rem;
-          height: 7rem;
-          background-repeat: no-repeat;
-          background-size: cover;
-        }
+		.upload-img-box{
+			height: 4rem;
+			margin-bottom: 1rem;
+	   		margin: 0 auto;
+		}
+		.upload-img-box *{
+			float: left;
+		 	margin-right: 0.5rem;
+		  	border-radius: 3px; 
+		}
+		.upload-img-box textarea{
+		  border: none;
+		  height: 3rem;
+		  position: relative;
+		  top: 0.5rem;
+		  resize: none;
+		}
+		.upload-img-box button{
+		  height:2rem;
+		  width: 3rem;
+		  background-color: #ffffff;
+		  border: none;
+		  position: relative;
+		  top: 1rem;
+		}
+		.upload-img-box .button-del{
+			background-color: red;
+			color: #ffffff;
+		}
+		.upload-img{
+			height:4rem;
+			width: 4rem;
+		}
         .form-content{
           margin-top: 1rem;
         }
@@ -73,6 +101,21 @@
 		.button-group input:last-child{
       		background-color: rgb(245, 152, 13); 
 		}
+		.myalert{
+			display: none;
+			position: fixed;
+			text-align: center;
+			top: 20rem;
+			left: 5rem;
+			background-color: rgba(217, 216, 219, 0.83);
+			width: 60%;
+            border-radius: 3px;
+			margin: auto 0;
+		}
+		.myalert button{
+			background-color: #ffffff;
+            border-radius: 3px;
+		}
     </style>
 
 </head>
@@ -83,19 +126,7 @@
     </div>
     <div class="img-box">
       <div>
-        <button class="upload_img" onclick="file1.click();">+</button><input id="file1" type="file" value="浏览" class="image-file" />
-        <button class="upload_img" onclick="file2.click();">+</button><input id="file2" type="file" value="浏览" class="image-file" />
-        <button class="upload_img" onclick="file3.click();">+</button><input id="file3" type="file" value="浏览" class="image-file" />
-      </div>
-      <div>
-        <button class="upload_img" onclick="file4.click();">+</button><input id="file4" type="file" value="浏览" class="image-file" />
-        <button class="upload_img" onclick="file5.click();">+</button><input id="file5" type="file" value="浏览" class="image-file" />
-        <button class="upload_img" onclick="file6.click();">+</button><input id="file6" type="file" value="浏览" class="image-file" />
-      </div>
-      <div>
-        <button class="upload_img" onclick="file7.click();">+</button><input id="file7" type="file" value="浏览" class="image-file" />
-        <button class="upload_img" onclick="file8.click();">+</button><input id="file8" type="file" value="浏览" class="image-file" />
-        <button class="upload_img" onclick="file9.click();">+</button><input id="file9" type="file" value="浏览" class="image-file" />
+        <button id="upload-button" onclick="file1.click();">点击批量上传商品</button><input id="file1" type="file" value="浏览" class="image-file" multiple/>
       </div>
     </div>
     <div class="form-content">
@@ -107,12 +138,10 @@
         <div class="input-group">
           <label>零售</label>
           <input type="text" placeholder="" name="price"/>
-          <input type="checkbox" name="show_price" value="true">显示
         </div>
         <div class="input-group">
           <label>库存</label>
           <input type="text" placeholder="不填写默认为无限" name="stock"/>
-          <input type="checkbox" name="show_stock" value="true">显示
         </div>
         <div class="input-group">
           <label>邮费</label>
@@ -148,37 +177,71 @@
         </div>
       </form>
     </div>
+	<div class="myalert"><p id="alert-content">提示</p><button id="alert-btn">确定</button></div>
     <%=javascript_include_tag 'jquery'%>
     <script>
     file_arr=[]
+	file_url=[]
+	function myalert(action,content){
+		if(action == "show"){
+			$("#alert-content").html(content)
+			$(".myalert").css("top",((window.screen.height-$(".myalert").height())/2)+"px")
+			$(".myalert").css("left",window.screen.width*0.2+"px")
+			$(".myalert").show()
+		}else{
+			$(".myalert").hide()
+		}
+	  }
     $(function(){
       $(".image-file").change(function(e){
-          var file = e.target.files[0]
-          if (file) {
-              var reader = new FileReader();
-              reader.onload = function() {
-                  file_arr.push(e.target.id)
-                  var index = e.target.id.replace("file","")
-                  $(".upload_img").eq(index-1).css("background-image", "url("+reader.result+")")
+		  var files = e.target.files
+		  var reader = []
+		  var length = file_arr.length
+		  if((files.length+length) > 9){
+		  	myalert("show","最多只能上传9张")
+			return false;
+		  }
+		  var html = []
+		  var time = 0
+		  for(var i = length;i < files.length+length; i++){
+              file_arr[i] = files[i-length]
+		  	  reader[i] = new FileReader();
+              reader[i].onload = function(a) {
+			      file_url[this.index] = reader[this.index].result
+                  html[this.index] = '<div class="upload-img-box"><img src="'+reader[this.index].result+'" class="upload-img"/><textarea class="img-info"></textarea><button class="button-copy">复制</button><button target="'+this.index+'" class="button-del">删除</button></div>'
+				  time++
+				  if(time == files.length){
+				  	 $(".img-box:eq(0)").append(html.splice(length,time).join(" "))
+				  }
               }
-              reader.readAsDataURL(file);
-          }
-      })
+			  reader[i].index = i
+              reader[i].readAsDataURL(files[i-length]);
+		  }
+       })
+
+	  $(document).on("click",".button-del",function(){
+			file_arr[$(this).attr("target")]=null
+	  		$(this).parent().remove();
+	  })
 
       $("#submit").click(function(){
-          console.log($("#my_form").serialize())
-		  console.log(file_arr)
           var formobj =  document.getElementById("my_form");
           // var form = formobj.getFormData()
           var form = new FormData(formobj);
-          $.each(file_arr,function(index,name){
-            var file = $("#"+name).prop("files")[0]
-            form.append('file[]',file);
+		  var number = 0
+          $.each(file_arr,function(index,file){
+			if(file){
+            	form.append('file[]',file);
+				form.append("img_info[]",$(".img-info").eq(index).val())
+				number++
+			}
           })
+		  if(number>9){
+			return false	
+		  }
 		  form.append("appid",'<%=params[:appid]%>')
-		  console.log(form)
           var xhr = new XMLHttpRequest();
-          xhr.open("post","<%=Settings.website_url%>/page/products", true);
+          xhr.open("post","/page/products", true);
           xhr.onload = function(){
 		  		var result = JSON.parse(xhr.responseText)
 				console.log(result)
@@ -188,7 +251,13 @@
             }
           xhr.send(form);
       })
+
+	  $("#alert-btn").click(function(){
+	  		myalert("hide")
+	  })
+	  
     })
+	
     </script>
 </body>
 

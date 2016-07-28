@@ -5,6 +5,7 @@ class Product < ApplicationRecord
   has_many :level_distributions
   has_many :share_products
   has_many :product_stocks
+  has_many :qrcode_images
 
   enum status: [:normal,:due]
   def get_stock
