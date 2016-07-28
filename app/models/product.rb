@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-  belongs_to :user
+  belongs_to :shop
   belongs_to :member
   has_many :images
   has_many :level_distributions

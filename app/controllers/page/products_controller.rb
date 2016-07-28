@@ -6,11 +6,11 @@ class Page::ProductsController < Page::ApplicationController
 
   def create
      #check_file :upload, required: true, max_size: 1024, file_type: %w(jpg jpeg png)
-    if current_member.has_authority?
-		product = nil
+    if shop = current_member.has_authority?
+		    product = nil
         ActiveRecord::Base.transaction do
-          product = Product.create!(member_id:current_member.id,user_id:current_member.user_id,mark:params[:mark],stock:params[:stock],introduction:params[:introduction],postage:params[:postage],price:params[:price],cost:params[:cost],name:params[:name],is_threshold:params[:is_threshold],status:0)
-          3.times.each do |index|
+          product = Product.create!(member_id:current_member.id,shop_id:shop.id,user_id:current_member.user_id,mark:params[:mark],stock:params[:stock],introduction:params[:introduction],postage:params[:postage],price:params[:price],cost:params[:cost],name:params[:name],is_threshold:params[:is_threshold])
+          shop.agent_num.times.each do |index|
               LevelDistribution.create!(product:product,cost:params[((index+1).to_s+"_cost").to_sym].to_i/100,level:index+1)
           end
           params[:file].each_with_index do |upload,index|

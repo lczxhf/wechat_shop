@@ -4,13 +4,8 @@ class User < ApplicationRecord
   has_one :gzh_config
   has_one :gzh_info
   has_many :members
-  has_many :products
-  has_many :product_stocks
-  has_many :agent_levels
 
   enum status: [:probation,:normal,:expire]
-
-  mount_uploader :qrcode_url,MediaUploader
 
   after_create :init_setting
 

@@ -1,7 +1,8 @@
 class CreateAgentLevels < ActiveRecord::Migration[5.0]
   def change
     create_table :agent_levels do |t|
-      t.references :user
+      t.references :shop
+      t.string :name
       t.integer :level
       t.decimal :agent_min_price
       t.decimal :level_price

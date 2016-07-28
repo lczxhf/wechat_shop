@@ -4,6 +4,7 @@ class CreateImages < ActiveRecord::Migration[5.0]
       t.references :product
       t.references :member
       t.string :path
+      t.string :introduction
       t.boolean :del, default: false
       t.timestamps
     end
