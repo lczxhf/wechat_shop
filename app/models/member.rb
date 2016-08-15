@@ -12,6 +12,8 @@ class Member < ApplicationRecord
 
   has_many :product_stocks
 
+  has_many :orders
+
 
   def has_authority?
     #  UserSetting.fetch_cache(user_id:self.user_id).user_sell? ? self.user.openid == self.openid : true

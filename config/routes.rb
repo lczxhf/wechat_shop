@@ -26,6 +26,10 @@ post "/birthday" => "page/users#birthday"
 	  resources :share_records do
 	  	post 'sent_code', on: :collection
 	  end
+
+	  resources :orders do
+	  	post :create_by_authorize, on: :collection
+	  end
  end
 
  namespace :api do

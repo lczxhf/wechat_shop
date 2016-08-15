@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160815124847) do
+ActiveRecord::Schema.define(version: 20160815135756) do
 
   create_table "agent_levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "shop_id"
@@ -126,6 +126,35 @@ ActiveRecord::Schema.define(version: 20160815124847) do
     t.index ["user_id"], name: "index_members_on_user_id", using: :btree
   end
 
+  create_table "order_products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "order_id"
+    t.integer  "product_id"
+    t.integer  "sum"
+    t.decimal  "price",      precision: 10
+    t.boolean  "del",                       default: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.index ["order_id"], name: "index_order_products_on_order_id", using: :btree
+    t.index ["product_id"], name: "index_order_products_on_product_id", using: :btree
+  end
+
+  create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "shop_id"
+    t.integer  "member_id"
+    t.integer  "share_record_id"
+    t.string   "phone"
+    t.string   "address"
+    t.decimal  "total_price",     precision: 10
+    t.boolean  "is_store",                       default: false
+    t.integer  "status",                         default: 0
+    t.boolean  "del",                            default: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.index ["member_id"], name: "index_orders_on_member_id", using: :btree
+    t.index ["share_record_id"], name: "index_orders_on_share_record_id", using: :btree
+    t.index ["shop_id"], name: "index_orders_on_shop_id", using: :btree
+  end
+
   create_table "product_stocks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "shop_id"
     t.integer  "product_id"
@@ -135,6 +164,7 @@ ActiveRecord::Schema.define(version: 20160815124847) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "count"
+    t.integer  "order_id"
     t.index ["member_id"], name: "index_product_stocks_on_member_id", using: :btree
     t.index ["product_id"], name: "index_product_stocks_on_product_id", using: :btree
     t.index ["shop_id"], name: "index_product_stocks_on_shop_id", using: :btree

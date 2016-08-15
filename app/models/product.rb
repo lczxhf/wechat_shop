@@ -8,6 +8,8 @@ class Product < ApplicationRecord
   has_many :product_stocks
   has_many :qrcode_images,dependent: :destroy
 
+  has_many :order_products
+
   enum status: [:normal,:due]
 
   value :main_image

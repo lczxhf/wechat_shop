@@ -5,6 +5,8 @@ class Shop < ApplicationRecord
     has_many :product_stocks
     has_many :agent_levels,dependent: :destroy
 
+	has_many :orders
+
     mount_uploader :qrcode_url,MediaUploader
 
     enum status: [:probation,:normal,:expire]
