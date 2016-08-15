@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<style>
+		html,body{
+			margin:0;
+		}	
+		input{
+			border: 1px solid #E05543;
+		}
+		button{
+			color: #ffffff;
+			background-color: #E05543;  
+			border: none;
+			height:1.5rem;
+		}
+		.disable-button{
+			background-color: grey;  
+		}
+		.header{
+			background-color: #FB6969;
+			text-align: center;
+			color: #ffffff;
+			padding: 0.5rem;
+		}
+		.header h2{
+			margin: 0;
+		}
+
+		.phone-group{
+			width: 90%;
+			margin: 0.5rem 0 0.5rem 10%;
+		}
+		.phone-group span{
+			display: inline-block;
+			width: 4rem;
+			margin-right: 1rem;
+		}	
+		.code-group{
+			width: 90%;
+			margin: 0.5rem 0 0.5rem 10%;	
+		}
+		.code-group span{
+			display: inline-block;
+			width: 4rem;
+			margin-right: 1rem;	
+		}
+		.button-group{
+			width: 80%;
+			margin: 0.5rem 10%;
+			text-align: center;
+		}
+		.button-group button{
+			width: 80%;
+			line-height: 1.5rem;
+		}
+	</style>
+
+</head>
+<body>
+	<div class="header">
+		<h2>注册店家</h2>
+	</div>
+	<div>
+		<form id="my_form">
+			<div class="phone-group">
+				<span>手机号码</span><input type="number" id="phone"/>
+				<button type="button" id="sent_code">发送验证码</button>
+			</div>
+			<div class="code-group">
+				<span>验证码</span><input type="number" id="code"/>
+			</div>
+			<div class="button-group"><button type="button" id="submit">提交</button></div>
+		</form>
+	</div>
+    <%=javascript_include_tag 'jquery'%>
+	<script>
+		$(function(){
+			$("#sent_code").click(function(){
+				if($("#phone").val().length == 11){
+					$(this).attr("disabled","true")
+					var time = 60
+					$("#sent_code").html("正在发送验证码").addClass("disable-button")
+					var job = setInterval(function(){
+						if(time == 0){
+							clearInterval(self)
+							$("#sent_code").removeAttr("disabled").html("发送验证码").removeClass("disable-button")
+						}else{
+							$("#sent_code").html(time+"秒后重试")
+							time--
+						}
+					},1000)
+					$.post("sent_code",{phone:$("#phone").val()},function(obj){
+						if(obj.returnCode!=200){
+							alert(obj.message)
+						}
+						time = 60
+						$("#sent_code").removeAttr("disabled").html("发送验证码").removeClass("disable-button")
+						clearInterval(job)	
+					},'json')	
+				}else{
+					alert("请输入正确的手机号码")
+				}			
+			})
+
+			$("#submit").click(function(){
+				$.post("init_shop",{phone:$("#phone").val(),code:$("#code").val()},function(obj){
+					if(obj.returnCode == 200){
+						window.location.href = "new?appid=<%=params[:appid]%>"	
+					}else{
+						alert(obj.message)
+					}	
+				},'json')
+			})
+		})
+	</script>
+</body>
+</html>
+  

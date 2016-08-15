@@ -151,9 +151,9 @@
         <div class="input-group">
           <label>佣金</label>
           <div class="distributions">
-            <div>一级:<input type="text" placeholder="" name="1_cost"/>元</div>
-            <div>二级:<input type="text" placeholder="" name="2_cost"/>元</div>
-            <div>三级:<input type="text" placeholder=""name="3_cost"/>元</div>
+		  	<%@shop.agent_levels.each_with_index do |level,index|%>
+            <div><%=level.name%>:<input type="text" placeholder="" name="<%=index+1%>_cost"/>元</div>
+			<%end%>
           </div>
         </div>
         <div class="input-group">

@@ -48,7 +48,7 @@
 			<div class="img-box" target="<%=index%>">
 				<p class="name"><%=product.name%></p>
 				<img class="qrcode-img" src="<%=product.qrcode_images.first.path.url%>" />
-				<p class="stock">库存:<%=product.stock%></p>
+				<p class="stock">库存:<%=product.get_stock%></p>
 				<p class="price">零售:<%=product.price%></p>
 			</div>
 		<%end%>
@@ -95,7 +95,6 @@
 					image_index++;
 					}	
 				}
-				
 				$(".big-img").children().eq(0).attr("src",arr[product_index][image_index]) 	
 			  	start = true
 			  }else{

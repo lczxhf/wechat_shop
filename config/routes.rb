@@ -13,10 +13,19 @@ Rails.application.routes.draw do
   	get "wechat/authorize" => "wechat#authorize"
  end
 
-get "/birthday" => "page/users#birthday"
+post "/birthday" => "page/users#birthday"
  namespace :page do
 	  resources :products
-	  resources :users
+	  resources :users do
+	  	get 'init',on: :collection
+	  	post 'sent_code',on: :collection
+		post 'init_shop', on: :collection
+		get 'show_bind', on: :collection
+		post "bind_wechat",on: :collection
+	  end
+	  resources :share_records do
+	  	post 'sent_code', on: :collection
+	  end
  end
 
  namespace :api do

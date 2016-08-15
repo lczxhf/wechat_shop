@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<script>
+		document.getElementsByTagName('html')[0].style.fontSize=window.screen.width/30+'px'
+	</script>
     <style>
 		html,body{
 			margin:0;
@@ -72,6 +75,13 @@
 		.agent-list{
 			background-color:#effeff;
 			line-height: 2rem;
+		}
+		.agent-list span:first-child{
+			margin-right:1rem
+		}
+		.agent-list span:last-child{
+			font-size: 1.5rem;
+			font-weight: 600;
 		}
 		.agent-list	.operate-button{
 			display: inline-block;
@@ -154,6 +164,7 @@
 
 			<div class="container agent">
 				<p>代理级别设定</p>
+				<%if @shop.agent_num.to_i == 0%>
 				<div class="agent-list">
 				</div>
 				<div class="button-group"><button id="show_add_agent" type="button">添加一个代理级别</button></div>
@@ -170,6 +181,14 @@
 					</div>
 					<div class="tip"><p>请小心设定!一经设定后.欲修改需联系400-677-9291</p></div>
 				</div>
+				<%else%>
+					<div class="agent-list">
+						<%@shop.agent_levels.each_with_index do |level,index|%>
+						<div><span>已设置的等级<%=index+1%>:</span><span><%=level.name%></span></div>
+						<%end%>
+						<div class="tip"><p>一经设定后.欲修改需联系400-677-9291</p></div>
+					</div>
+				<%end%>
 			</div>
 
 			<div class="line"></div>

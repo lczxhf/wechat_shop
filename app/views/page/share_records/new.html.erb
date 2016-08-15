@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<style>
+		html,body{
+			margin:0;
+			background-color:#effeff;
+		}	
+		input{
+			border: 1px solid #E05543;
+		}
+		button{
+			color: #ffffff;
+			background-color: #3468af;  
+			border: none;
+			height:1.5rem;
+		}
+		.header{
+			background-color: #23aae3;
+			text-align: center;
+			color: #ffffff;
+			padding: 0.5rem;
+		}
+		.header h3{
+			margin: 0;
+		}
+		.content{
+		}
+		.button-group{
+			width: 80%;
+			margin: 0.5rem 10%;
+			text-align: center;
+		}
+		.button-group button{
+			width:40%;
+			line-height: 1.5rem;
+		}
+		.item-box .agent-ul li{
+			margin-bottom: 1rem;
+			list-style-type: none;
+		}
+		.item-box .agent-ul li input{
+			margin-right:0.5rem;
+		}
+		.tip{
+			text-align: center;
+			color: blue;
+			background-color:rgba(220,220,220,1);
+			padding: 0.5rem 0;
+		}
+		.tip p{
+			margin:0;
+			margin-bottom:0.5rem;
+		}
+		.account{
+			margin-top: 1rem;
+			margin-bottom: 1rem;
+			padding-left:10%;
+		}
+		.account p {
+			margin:0;
+			margin-bottom:0.5rem;
+		}
+		.account p:last-child{
+			padding-left:5rem;
+		}
+		.qrcode-box{
+			display:none
+		}
+	</style>
+
+</head>
+<body>
+	<div class="header">
+		<h3>你是<%=@agent_levels.first.level-1 == 0 ? "超级" : @agent_levels.first.level-1%>代理权限</h3>
+		<h3>可授权对方一下代理级别</h3>
+	</div>
+	<div class="content">
+		<form id="my_form">
+			<div class="item-box">
+				<ul class="agent-ul">
+					<%@agent_levels.each_with_index do |level,index|%>
+					<li><input type="radio" name="level" value="1" <%=index==0 ? 'checked': ""%>><%=level.name%>代理(首次拿货$<%=level.agent_min_price%>+/升级$<%=level.level_price%>+)</li>
+					<%end%>
+				</ul>
+			</div>
+			<div class="tip">
+				<p>发货方式将由被授权方自行选择</p>
+				<p>被授权方支付后,您的销售差价利润将打款到:</p>
+			</div>
+			<div class="account">
+				<p>支付宝实名认证账户:15817378124</p>
+				<p>实名认证:林林林</p>
+			</div>
+			<div class="tip qrcode-box">
+				<img src="/qrcode/1-2.png"  id="qrcode"/>
+				<p>请将二维码让要加入的代理扫</p>
+			</div>
+			<div class="button-group">
+				<button type="button" id="submit">确定放权</button>
+				<button type="button" id="cancel">取消返回</button>
+			</div>
+		</form>
+		
+	</div>
+    <%=javascript_include_tag 'jquery'%>
+	<script>
+		$(function(){
+			$("#submit").click(function(){
+				$.post("/page/share_records",$("#my_form").serialize()+"&appid=<%=params[:appid]%>",function(obj){
+					if(obj.returnCode == 200){
+						$(".qrcode-box").show()
+						$("#qrcode").attr("src",obj.result)
+					}else{
+						alert(obj.message)
+					}
+				},'json')		
+			})				
+		})
+	</script>
+</body>
+</html>
+  

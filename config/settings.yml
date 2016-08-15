@@ -4,6 +4,7 @@ defaults: &defaults
   return_json_status_name: "returnCode"
   return_err_result_name: "message"
   return_success_result_name: "result"
+  qrcode_expire: 5
 
 development:
   <<: *defaults

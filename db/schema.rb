@@ -11,18 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160727161207) do
+ActiveRecord::Schema.define(version: 20160815124847) do
 
   create_table "agent_levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
-    t.integer  "user_id"
+    t.integer  "shop_id"
+    t.string   "name"
     t.integer  "level"
     t.decimal  "agent_min_price",  precision: 10
     t.decimal  "level_price",      precision: 10
     t.boolean  "can_create_agent",                default: true
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
-    t.string   "name"
-    t.index ["user_id"], name: "index_agent_levels_on_user_id", using: :btree
+    t.index ["shop_id"], name: "index_agent_levels_on_shop_id", using: :btree
   end
 
   create_table "gzh_configs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -62,10 +62,10 @@ ActiveRecord::Schema.define(version: 20160727161207) do
     t.integer  "product_id"
     t.integer  "member_id"
     t.string   "path"
+    t.string   "introduction"
     t.boolean  "del",          default: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
-    t.string   "introduction"
     t.index ["member_id"], name: "index_images_on_member_id", using: :btree
     t.index ["product_id"], name: "index_images_on_product_id", using: :btree
   end
@@ -73,21 +73,33 @@ ActiveRecord::Schema.define(version: 20160727161207) do
   create_table "level_distributions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "product_id"
     t.decimal  "cost",                  precision: 10
+    t.integer  "level"
     t.float    "discount",   limit: 24
     t.boolean  "del",                                  default: false
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
-    t.integer  "level"
     t.index ["product_id"], name: "index_level_distributions_on_product_id", using: :btree
   end
 
+  create_table "member_authorizes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "shop_id"
+    t.integer  "member_id"
+    t.boolean  "del",        default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["member_id"], name: "index_member_authorizes_on_member_id", using: :btree
+    t.index ["shop_id"], name: "index_member_authorizes_on_shop_id", using: :btree
+  end
+
   create_table "member_relations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "shop_id"
     t.integer  "parent_member_id"
     t.integer  "child_member_id"
     t.integer  "level"
     t.boolean  "del",              default: false
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.index ["shop_id"], name: "index_member_relations_on_shop_id", using: :btree
   end
 
   create_table "members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -95,10 +107,6 @@ ActiveRecord::Schema.define(version: 20160727161207) do
     t.integer  "gzh_config_id"
     t.string   "openid"
     t.string   "wechat_number"
-    t.integer  "phone"
-    t.boolean  "del",            default: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
     t.string   "nickname"
     t.boolean  "sex"
     t.string   "province"
@@ -110,26 +118,32 @@ ActiveRecord::Schema.define(version: 20160727161207) do
     t.string   "remark"
     t.string   "realname"
     t.string   "alipay_account"
+    t.boolean  "del",            default: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "phone"
     t.index ["gzh_config_id"], name: "index_members_on_gzh_config_id", using: :btree
     t.index ["user_id"], name: "index_members_on_user_id", using: :btree
   end
 
   create_table "product_stocks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
-    t.integer  "user_id"
+    t.integer  "shop_id"
     t.integer  "product_id"
     t.integer  "member_id"
-    t.integer  "status"
+    t.integer  "status",     default: 0
     t.boolean  "del",        default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "count"
     t.index ["member_id"], name: "index_product_stocks_on_member_id", using: :btree
     t.index ["product_id"], name: "index_product_stocks_on_product_id", using: :btree
-    t.index ["user_id"], name: "index_product_stocks_on_user_id", using: :btree
+    t.index ["shop_id"], name: "index_product_stocks_on_shop_id", using: :btree
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "member_id"
     t.integer  "user_id"
+    t.integer  "shop_id"
     t.string   "name"
     t.string   "mark"
     t.integer  "stock"
@@ -137,15 +151,14 @@ ActiveRecord::Schema.define(version: 20160727161207) do
     t.decimal  "postage",                    precision: 10
     t.decimal  "price",                      precision: 10
     t.decimal  "cost",                       precision: 10
-    t.boolean  "show_stock"
-    t.boolean  "show_price"
     t.boolean  "del",                                       default: false
+    t.boolean  "is_threshold",                              default: true
+    t.integer  "status",                                    default: 0
+    t.integer  "sentday",                                   default: 0
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
-    t.boolean  "is_threshold"
-    t.integer  "status"
-    t.integer  "sentday"
     t.index ["member_id"], name: "index_products_on_member_id", using: :btree
+    t.index ["shop_id"], name: "index_products_on_shop_id", using: :btree
     t.index ["user_id"], name: "index_products_on_user_id", using: :btree
   end
 
@@ -184,31 +197,50 @@ ActiveRecord::Schema.define(version: 20160727161207) do
     t.datetime "updated_at",                     null: false
   end
 
-  create_table "user_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
-    t.integer  "user_id"
-    t.integer  "u_type",           default: 0
-    t.boolean  "del",              default: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+  create_table "shop_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "shop_id"
     t.integer  "threshold_number", default: 100
     t.boolean  "show_address",     default: true
     t.boolean  "can_alipay",       default: false
     t.boolean  "can_wechatpay",    default: true
     t.boolean  "can_unionpay",     default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.index ["shop_id"], name: "index_shop_settings_on_shop_id", using: :btree
+  end
+
+  create_table "shops", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "openid"
+    t.integer  "status",         default: 0
+    t.string   "phone"
+    t.string   "service_phone"
+    t.string   "service_wechat"
+    t.string   "address"
+    t.string   "qrcode_url"
+    t.boolean  "del",            default: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["user_id"], name: "index_shops_on_user_id", using: :btree
+  end
+
+  create_table "user_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "user_id"
+    t.integer  "u_type",     default: 0
+    t.boolean  "del",        default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.index ["user_id"], name: "index_user_settings_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string   "name"
     t.string   "openid"
-    t.boolean  "status",         default: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
     t.string   "phone"
-    t.string   "service_phone"
-    t.string   "service_wechat"
-    t.string   "address"
-    t.string   "qrcode_url"
+    t.boolean  "status",     default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
 end
