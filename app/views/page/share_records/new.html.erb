@@ -82,7 +82,7 @@
 			<div class="item-box">
 				<ul class="agent-ul">
 					<%@agent_levels.each_with_index do |level,index|%>
-					<li><input type="radio" name="level" value="1" <%=index==0 ? 'checked': ""%>><%=level.name%>代理(首次拿货$<%=level.agent_min_price%>+/升级$<%=level.level_price%>+)</li>
+					<li><input type="radio" name="level_id" value="<%=level.id%>" <%=index==0 ? 'checked': ""%>><%=level.name%>代理(首次拿货$<%=level.agent_min_price%>+/升级$<%=level.level_price%>+)</li>
 					<%end%>
 				</ul>
 			</div>

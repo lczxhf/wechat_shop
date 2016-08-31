@@ -18,7 +18,8 @@ class Page::ShareRecordsController < Page::ApplicationController
 	end
 
 	def create
-		if share_record = ShareRecord.create(from_member_id:current_member.id,level:params[:level])
+		agent_level = AgentLevel.find(params[:level_id])
+		if share_record = ShareRecord.create(from_member_id:current_member.id,level:agent_level.level,shop_id:agent_level.shop_id,price:agent_level.agent_min_price)
 			url = Settings.website_url+"/page/share_records/#{share_record.id}?appid=#{params[:appid]}"
 			name = Mybase64.encode(share_record.id.to_s)+".png"
 			path = "/uploads/share_records/#{share_record.id}/#{name}"

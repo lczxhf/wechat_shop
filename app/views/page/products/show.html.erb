@@ -21,38 +21,34 @@
       margin: 0;
     }
     .header{
-      background-image: url(/images/product-bg.jpg);
-      background-size: cover;
+	  background-color:orange;
       text-align: center;
       /*vertical-align: bottom;*/
       width: 100%;
-      height: 10rem;
       position: relative;
-    }
-    .img-div{
-      position: absolute;
-      top: 1rem;
-      text-align: center;
-      width: 100%;
+	  overflow: auto;
+	  height: 7rem;
+	  padding-left:2rem;
+	  padding-top: 1rem;
     }
     .headimg{
       width: 5rem;
 	  height: 5rem;
       border-radius: 50%;
       position: static;
+	  float: left;
     }
-    .title{
-      width: 100%;
-      height: 4.5rem;
-      background-color: rgba(18, 17, 17, 0.20);
-      position: absolute;
-      bottom: 0rem;
-      text-align: center;
-    }
+	.title{
+		float:left;
+		margin-top:.5rem;
+	}
     .title p{
       color:#ffffff;
       margin: 0.5rem;
     }
+	.header h2{
+		color: #ffffff;
+	}
     .img-box{
       margin-top: 0.5rem;
 	  position: relative;
@@ -104,108 +100,213 @@
 		background-image: url("/images/icon/bullet_black.png");
 	}
     .product-title{
-      margin-bottom: 0.5rem;
-      height: 2rem;
+      margin: 1rem 0;
     }
-    .product-title *{
-      float: left;
-    }
-    .product-title span{
+    .product-title p{
       padding-left: 1rem;
-      width: 80%;
+	  font-size:1.5rem;
     }
-    .product-title button{
-        width: 19%;
-		margin-right: 1%;
-        height: 2rem;
-        background-color: rgb(255, 108, 0);
-		border: none;
-        border-radius: 5px;
-        color: #ffffff;
-    }
-    .product-price{
-
-      /*background-color: rgba(245, 186, 10, 0.28);*/
-    }
-    .product-price p:first-child span:first-child{
-      font-size: 2rem;
+    .product-price > span{
+      font-size: 2.5rem;
       color: rgb(255, 108, 0);
-      margin-right: 1rem;
+	  margin-left: 1rem;
     }
+	.product-price div{
+		color: grey;
+	}
+	.product-price div span{
+		float:right;
+		position:relative;
+		bottom:1rem;
+		margin-right:1rem;
+	}
 
+	.product-number{
+		padding: 0 1rem;	
+		position: relative;
+		overflow:auto;
+	}
+	.product-number span{
+		font-size: 1.5rem;
+		position:absolute;
+		bottom:0;
+	}
+	.product-number div{
+		text-align:right;
+		display:inline-block;
+		float:right;
+	}
+	.product-number button{
+		background-color:rgba(210, 214, 209, 0.72);
+		width:2rem;
+		height:2rem;
+		padding:1px;
+		margin:0;
+		border-radius:3px;
+		text-align:center;
+		border: 1px solid #000;
+	}
+	.product-number input{
+		height: 2rem;
+		border: 1px solid #000;
+		width:3rem;
+		text-align:center;
+		border-radius:3px;
+	}
     .customer-box{
+	  margin-top:1rem;
       text-align: center;
     }
+	.customer-box button{
+		width: 80%;
+      	background-color: rgb(255, 108, 0);
+      	height: 2rem;
+      	color: #ffffff;
+      	font-size: 1.2rem;
+	  	border: none;
+	}
     .customer-box .customer{
-      padding: 0.5rem;
-      margin: 0;
+      padding: .5rem;
     }
     .customer-box .customer span{
         display: inline-block;
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 2rem;
+        height: 2rem;
         background-image: url('/images/icon/wechat_icon.png');
         background-size: cover;
-    }
-    .customer-box .tip{
-      color: rgb(240, 19, 5);
-      padding: 1rem;
+		margin-left:3rem;
+		margin-right:.5rem;
+		position:relative;
+		top:.5rem;
     }
     .level-distribution{
-      /*background-color: rgba(244, 178, 10, 0.35);*/
-      text-align: left;
+      text-align: center;
     }
 
-    .level-distribution p:first-child span:first-child {
-        font-size: 2rem;
-        color:rgb(255, 108, 0);
-        margin-right: 2rem;
+    .level-distribution > p:first-child{
+        font-size: 1.5rem;
+        color:blue;
+        margin-top: 1rem;
     }
-    .level-distribution .level span{
-      margin-right: 1rem;
+	.level-distribution .agent-price{
+		overflow:auto;
+	}
+    .level-distribution .agent-price .price-info{
+      margin-left: 1rem;
+	  float:left;
+	  height: 5rem;
     }
+    .level-distribution .agent-price .price-info p{
+		min-height: 33%;
+		text-align:left;
+	}
+    .level-distribution .agent-button{
+		margin-right:1rem;
+		float:right;	
+	}
+	.level-distribution .agent-button button{
+		display:block;
+		height:2rem;
+		width: 6rem;
+		background-color:blue;
+		color:#ffffff;
+		border:none;
+		margin-bottom:.5rem;
+	}
+	.level-distribution .level-info{
+		overflow:auto;
+	}
+	.member-info{
+		float:left;
+		margin-left:1rem;
+		height: 5rem;
+	}
+	.member-info img{
+		margin-top:.5rem;
+		margin-left:1rem;
+		width:4rem;
+		height:4rem;	  
+		border-radius: 50%;
+	}
+	.member-info > span{
+		display: inline-block;
+		height:3rem;
+		position: relative;
+		bottom:1rem;
+	}
+	.member-info > span span{
+		display: block;
+	}
+	.parent-level{
+		overflow:auto;
+		padding-bottom:1rem;
+	}
+	.parent-level div{
+		float:none;
+	}
 
-    /*.headquarters{
-      background-color: rgba(244, 178, 10, 0.35);
-    }*/
-
-    .headquarters p:first-child{
+	.headquarters{
+		text-align: center;
+	}
+    .headquarters >  p:first-child{
+	  font-size: 1.5rem;
 	  margin-top:1rem;
-      font-size: 2rem;
       color:rgb(255, 108, 0);
     }
-    .headquarters .info span{
+    .headquarters .product-agent-price{
       display: inline-block;
-      width: 50%;
+	  width:30%;
+	  margin-right:2rem;
+	  vertical-align:top;
     }
+    .headquarters .product-agent-price p{
+		float:right;
+		margin-bottom:.5rem;
+	}
+    .headquarters .product-status{
+		display:inline-block;		
+	  	width:40%;
+		vertical-align:top;
+	}
+    .headquarters .product-status p{
+		margin-bottom:.5rem;
+	}
+    .headquarters .product-status button{
+		width:6rem;	
+	}
+	.headquarters-btn{
+		color:#ffffff;
+		background-color:red;	  
+		line-height: 2rem;
+		border:none;
+	}
+	.tip{
+		background-color: rgba(210, 214, 209, 0.72);
+		margin: .5rem 0;
+		line-height:2rem;
+	}
+	.tip p{
+		padding:0;
+		color: blue;
+	}
 
-    .width-button{
-      width: 100%;
-      background-color: rgb(255, 108, 0);
-      height: 2rem;
-      color: #ffffff;
-      font-size: 1.2rem;
-	  border: none;
-    }
-    .info-box p{
-      padding: 0.5rem;
-    }
-    .info-backgroud{
-      background-color: rgb(255, 238, 220);
-	  color: grey;
-    }
-
+	.line{
+		border: 1px solid rgba(210, 214, 209, 0.72);
+		margin: .5rem;
+	}
+	.big-line{
+		border: 5px solid rgba(210, 214, 209, 0.72);
+	}
     </style>
 	</head>
 <body>
     <div class="header">
-      <div class="img-div">
         <img class="headimg" src="<%=@member.headimgurl%>" />
-      </div>
-      <div class="title">
-            <p><%=@member.nickname || "无名"%></p>
-            <p>微信号:<%=@member.wechat_number || "暂无"%></p>
-      </div>
+		<div class="title">
+        	<p><%=@member.nickname || "无名"%></p>
+        	<p>微信号:<%=@member.wechat_number || "暂无"%></p>
+		</div>
+		<h2>向您推荐</h2>
     </div>
     <div class="content">
       <div class="img-box">
@@ -219,39 +320,85 @@
 		</ul>
       </div>
       <div class="product-title">
-        <span><%=@product.name%></span>
-        <button id="buy">去购买</button>
+        <p><%=@product.name%></p>
       </div>
-      <div class="product-price info-backgroud">
-        <p ><span>$<%=@product.price%></span><span>库存:<%=@product.get_stock%></span></p>
-        <p><span>快递:<%= @product.free_postage? ? '包邮' : "不包邮"%></span></p>
+      <div class="product-price">
+        <span>$<%=@product.price%></span><div><span>库存:<%=@product.get_stock%></span><span>快递:<%= @product.free_postage? ? '包邮' : "不包邮"%></span></div>
       </div>
-      <div class="product-introduction info-box">
+	  <div class="line"></div>
+      <div class="product-introduction ">
         <p><%=@product.introduction%></p>
       </div>
+	  <div class="line"></div>
+	  <div class="product-number">
+	  		<span>购买数量</span>
+			<div>
+				<button type="button">－</button>
+				<input type="number" />
+				<button type="button">＋</button>
+			</div>
+	  </div>
 	  <div class="customer-box">
-	  	<p class="customer">客服、发货请找微信<span></span><%=@member.wechat_number || "暂无"%></p>
         <button id="agency-buy" class="width-button">立即购买</button>
-		<%if @product.is_threshold%>
-        <p class="tip">购买此商品可立即成为分销商享3级利润</p>
-		<%end%>
+	  	<p class="customer">客服、发货请找我<span></span><%=@member.wechat_number || "暂无"%></p>
 	  </div>
 	<%if @can_show >=2%>
-        <div class="level-distribution info-box info-backgroud">
-            <p><span>代理商</span><span>此商品佣金比例</span></p>
-            <p class="level">
-				<%@product.level_distributions.each do |distribution|%>
-				<span>第<%=distribution.level%>级:<%=distribution.cost%>元</span>
-				<%end%>
-			</p>
-            <button id="withdraw" class="width-button">去提现</button>
+		<div class="big-line"></div>
+        <div class="level-distribution ">
+            <p>代理商</p>
+			<div class="line"></div>
+            <div class="agent-price">
+				<div class="price-info">
+					<p>零售:$228</p>
+					<p>我的进价:$228(一级代理价)</p>
+					<p>我的存货:228</p>
+				</div>
+				<div class="agent-button">
+					<button type="button">立即购买</button>
+					<button type="button">发货记录</button>
+				</div>
+			</div>
+			<div class="line"></div>
+			<div class="level-info">
+				<div class="member-info">
+					<img src="<%=@member.headimgurl%>" />
+					<span class="contact"><span>15811111111</span><span>微信号:xxxxxxxx</span></span>
+				</div>	
+				<div class="agent-button">
+					<button type="button">修改资料</button>
+					<button type="button">立即升级</button>
+				</div>
+			</div>
+			<div class="tip"><p>您现在是一级代理升级可享受更多折扣</p></div>
+			<div class="parent-level">
+				<div class="member-info">
+				<span>你的上级代理</span><img src="<%=@member.headimgurl%>" /> <span class="contact"><span>15811111111</span><span>微信号:xxxxxxxx</span</span>
+				</div>
+				<div class="tip"><p>客服电话:12345678</p></div>
+			</div>
       	</div>
 	<%end%>
 	<%if @can_show>=3%>
-      <div class="headquarters info-box info-backgroud">
+		<div class="big-line"></div>
+      <div class="headquarters">
         <p>总部</p>
-        <p class="info"><span>成本价:$<%=@product.cost%></span><span>浏览总数:3877次</span></p>
-        <p class="info"><span>成交总额:$123123.90</span><span>发出佣金:$1212.0</span></p>
+		<div class="line"></div>
+        <div class="product-agent-price">
+			<p>一级代理价:$<%=@product.cost%></p>
+			<p>一级代理价:$<%=@product.cost%></p>
+			<p>一级代理价:$<%=@product.cost%></p>
+			<p>一级代理价:$<%=@product.cost%></p>
+			<p>一级代理价:$<%=@product.cost%></p>
+			<p>零售:$<%=@product.cost%></p>
+		</div>
+        <div class="product-status">
+			<p>总库存:1000</p>
+			<p>已付款代存:1000</p>
+			<p>已发货:1000</p>
+			<p>可销售:1000</p>
+			<button class="headquarters-btn" type="button">商品下架</button>
+		</div>
+		<div class="line"></div>
         <p>备注:<%=@product.mark%></p>
         <button id="manage" class="width-button">去管理</button>
       </div>

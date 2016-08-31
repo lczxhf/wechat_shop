@@ -188,13 +188,14 @@
 	<div class="content">
 		<form id="my_form">
 		  <div class="all-product" >
-		  	<%@products.each do |product|%>
-			<div class="product-box" onclick="go_detail(<%=product.id%>)">
-				<img src="<%=product.get_image%>" />
+		  	<%@products.each_with_index do |product,index|%>
+			<div class="product-box" >
+				<img src="<%=product.get_image%>" onclick="go_detail(<%=product.id%>)"/>
 				<span class="product-name"><%=product.name%></span>
 				<span class="product-stock">自库/总库: <span><%=@member.get_self_stock(product)%>/<%=product.get_stock%></span></span>
 				<span class="product-price">进价: <span class="price">$<%=product.price%></span></span>
-				<input type="number" name="sum_<%=product.id%>" placeholder="请输入数量"/>
+				<input type="hidden" class="product_ids" value="<%=product.id%>"/>
+				<input type="number" class="product_sum" placeholder="请输入数量"/>
 			</div>
 			<%end%>
 		  </div>
@@ -214,7 +215,7 @@
 		  		<h3>发货方式</h3>
 		  		<div class="small-line"></div>
 				<div class="deliver-description">
-					<input type="radio" name="deliver" value="store"/>存货
+					<input type="radio" name="is_store" value="true"/>存货
 					<div>
 					<p>1.你支付购买后,将不会立即发货给你</p>
 					<p>2.你购买的商品将计算进你的库存,可用于零售</p>
@@ -222,7 +223,7 @@
 					<p>4.需要发货时向总部申请一件代发并扣除你的库存</p>
 					</div>
 				</div>
-				<div class="deliver-description"><input type="radio" name="deliver" value="deliver" checked/>立即发货<p>支付后将立即向你的地址发货</p></div>
+				<div class="deliver-description"><input type="radio" name="is_store" value="false" checked/>立即发货<p>支付后将立即向你的地址发货</p></div>
 		  </div>
 		  <div class="line"></div>
 		  <div class="info account">
@@ -242,7 +243,27 @@
 		$(function(){
 			$("#submit").click(function(){
 				if(check()){
-					
+					var data = $("#my_form").serialize()
+					var product_sum = []
+					var product_ids = []
+					$(".product_sum").each(function(a,b){
+						var sum = parseInt($(b).val())
+						if(sum!=0 && typeof sum === 'number' && !isNaN(sum)  ){
+							product_sum.push(sum)	
+							product_ids.push($(".product_ids").eq(a).val())
+						}		
+					})
+					product_ids.forEach(function(a,b){
+						data+="&product_ids[]="+a
+						data+="&product_sum[]="+product_sum[b]
+					})		
+					data+="&share_record_id=<%=@share_record.id%>"
+					$.post("/page/orders/create_by_authorize",data,function(obj){
+							if(obj.returnCode == 200){
+							}else{
+								alert(obj.message)
+							}
+					},'json')
 				}
 			})				
 			$("#sent_code").click(function(){
@@ -283,6 +304,7 @@
 				alert("请输入验证码")
 				return false
 			}
+			return true
 		}
 	</script>
 </body>

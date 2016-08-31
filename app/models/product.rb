@@ -25,4 +25,33 @@ class Product < ApplicationRecord
   def get_image
   	  self.main_image.value || self.images.first.path.thumb.url
   end
+
+  def self.counter_total_price(products,sum_arr)
+  		products.each_with_index.inject(0) do |result,arr|
+			result + arr[0].price*sum_arr[arr[1]].to_i
+		end	
+  end
+
+  def check_stock(sum)
+  	  self.get_stock >= sum.to_i
+  end
+
+  def check_member_stock(member_id,sum)
+		ProductStock.where(member_id:member_id,product_id:self.id).where("count >= #{sum}").present?
+  end
+
+  def reduce_stock(sum)
+	 if self.get_stock != 999
+	 	self.stock = self.stock - sum
+		self.save!
+	 end
+  end
+  def generate_order_product(order_id,sum,params={})
+		OrderProduct.create!(order_id:order_id,product_id:self.id,sum:sum,price:self.price)
+		if params[:is_store]
+			ProductStock.create!(product_id:self.id,shop_id:params[:shop_id],member_id:params[:member_id],order_id:order_id,count:sum)
+		else
+			self.reduce_stock(sum)
+		end
+  end
 end

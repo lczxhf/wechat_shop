@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160815135756) do
+ActiveRecord::Schema.define(version: 20160815160425) do
 
   create_table "agent_levels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "shop_id"
@@ -155,6 +155,17 @@ ActiveRecord::Schema.define(version: 20160815135756) do
     t.index ["shop_id"], name: "index_orders_on_shop_id", using: :btree
   end
 
+  create_table "pay_records", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "order_id"
+    t.integer  "member_id"
+    t.integer  "status",     default: 0
+    t.boolean  "del",        default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["member_id"], name: "index_pay_records_on_member_id", using: :btree
+    t.index ["order_id"], name: "index_pay_records_on_order_id", using: :btree
+  end
+
   create_table "product_stocks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "shop_id"
     t.integer  "product_id"
@@ -221,10 +232,12 @@ ActiveRecord::Schema.define(version: 20160815135756) do
     t.integer  "to_member_id"
     t.string   "qrcode"
     t.integer  "level"
-    t.integer  "status",         default: 0
-    t.boolean  "del",            default: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.integer  "status",                        default: 0
+    t.boolean  "del",                           default: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.decimal  "price",          precision: 10
+    t.integer  "shop_id"
   end
 
   create_table "shop_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|

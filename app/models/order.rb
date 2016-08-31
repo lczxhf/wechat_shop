@@ -5,5 +5,5 @@ class Order < ApplicationRecord
 
 	has_many :order_products
 
-	enum :status, [:created,:pay,:sent,:comment,:done]
+	enum status: [:created,:pay,:sent,:comment,:done]
 end
